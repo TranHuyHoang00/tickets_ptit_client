@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom';
 import HeaderDB from './element/header';
 import ManagerUser from './manager/user';
 import ManagerOrder from './manager/order';
+import MangerEvent from './manager/event';
 import Function from './function/functions';
 class index extends Component {
     constructor(props) {
@@ -33,6 +34,7 @@ class index extends Component {
             this.getItem('Quản lý', 'table', <DatabaseOutlined />, [
                 this.getItem('Người dùng', 'user', <AiOutlineUser />),
                 this.getItem('Giao dịch', 'order', <AiFillContainer />),
+                this.getItem('Sự kiện', 'event', <AiOutlineAudit />),
             ]),
             this.getItem('Chức năng', 'function', <AiFillCalculator />),
         ];
@@ -41,6 +43,7 @@ class index extends Component {
                 this.getItem('Quản lý', 'table', <DatabaseOutlined />, [
                     this.getItem('Người dùng', 'user', <AiOutlineUser />),
                     this.getItem('Giao dịch', 'order', <AiFillContainer />),
+                    this.getItem('Sự kiện', 'event', <AiOutlineAudit />),
                 ], 'group'),
                 this.getItem('Chức năng', 'function', <AiFillCalculator />),
             ]),
@@ -67,6 +70,7 @@ class index extends Component {
                         <Switch>
                             <Route exact path={`${url}user`}><ManagerUser /></Route>
                             <Route exact path={`${url}order`}><ManagerOrder /></Route>
+                            <Route exact path={`${url}event`}><MangerEvent /></Route>
                             <Route exact path={`${url}function`}><Function /></Route>
                         </Switch>
                     </Content>

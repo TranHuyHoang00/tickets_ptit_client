@@ -91,7 +91,10 @@ class home extends React.Component {
                         onOk={() => this.goToForm()}
                         onCancel={() => this.openDialog(false)}
                     >
-                        <h1>xxxx</h1>
+                        <div className='text-red-600 p-[10px] border-red-400 border rounded-[5px]'>
+                            <span>1. Điền đầy đủ và chính xác thông tin cá nhân vào Form đăng ký</span><br />
+                            <span>2. Sau khi hoàn tất giao dịch, vé dưới dạng QR Code sẽ được gửi về Email sinh viên</span>
+                        </div>
                     </Modal>
                 </div>
 

@@ -146,7 +146,7 @@ class event extends Component {
         return (
             <div className='m-[10px] p-[10px] bevent shadow-md bg-white'>
                 <Button onClick={() => this.openForm('create', true)} type='default' className='bg-black text-white'>Tạo mới</Button>
-                <Divider>Giao dịch</Divider>
+                <Divider>Sự kiện</Divider>
                 <Table columns={columns} dataSource={this.state.dataUsers}
                     size="small" bevented
                     pagination={{ pageSize: 10, }}

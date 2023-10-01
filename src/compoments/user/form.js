@@ -346,7 +346,7 @@ class form extends React.Component {
                             <div className='space-y-[10px]'>
                                 <ReCAPTCHA
                                     ref={recaptchaRef}
-                                    sitekey="6LdUp2UoAAAAANzdUYLxCtzKZfEd6QeLaCjYt6Me"
+                                    sitekey="6LdYXF0oAAAAAP0nx7fFZuDV48w-RKODoNvCljvP"
                                     onChange={(value) => this.handleOnchangRC(value)}
                                     onExpired={() => this.onExpired()}
                                 />,
