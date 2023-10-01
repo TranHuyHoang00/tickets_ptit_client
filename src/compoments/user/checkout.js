@@ -13,38 +13,30 @@ class checkout extends React.Component {
             dataTransaction: {},
             setMinutes: '',
             setSeconds: '',
-            duration: ''
+            countDowm: true,
         }
     }
     async componentDidMount() {
         let TSV_Order = JSON.parse(window.localStorage.getItem('TSV_Order'));
         if (TSV_Order && TSV_Order.data) {
-            this.LoadStatusCheckout(TSV_Order.data.id)
+            this.checkStatusOrder(TSV_Order.data.id)
             await this.create_transaction({ order: TSV_Order.data.id });
+            this.TimeCountDown()
         }
-        let deadline = 10000;
-        let dateNow = Date.now()
-        this.setState({
-            duration: deadline + dateNow,
-        })
-        //this.useEffect()
     }
-
-    LoadStatusCheckout = async (id) => {
-        const intervalId = setInterval(() => {
-            this.HandleGetOrder_Id(id);
-        }, 1000);
-        this.setState({ intervalId });
-        return () => clearInterval(intervalId);
+    checkStatusOrder = async (id) => {
+        const intervalStatusOrder = setInterval(() => { this.handleGetOrder_Id(id) }, 1000);
+        this.setState({ intervalStatusOrder });
+        return () => clearInterval(intervalStatusOrder);
     }
-    HandleGetOrder_Id = async (id) => {
+    handleGetOrder_Id = async (id) => {
         try {
             let data = await getOrder_Id(id);
             if (data && data.data && data.data.success == 1) {
                 this.setState({ dataOrder: data.data.data });
                 if (data.data.data.payment_status == 'success') {
                     localStorage.removeItem('TSV_Order');
-                    this.stopInterval()
+                    clearInterval(this.state.intervalStatusOrder);
                     setTimeout(() => { this.props.history.push(`/`) }, 5000);
                 }
             } else {
@@ -66,19 +58,24 @@ class checkout extends React.Component {
             console.log('Lỗi', e);
         }
     }
-    getTime = () => {
-        let duration = (this.state.dataTransaction.expiry_date) - Date.now();
-        this.setState({
-            setMinutes: (Math.floor((duration / 1000 / 60) % 60)),
-            setSeconds: (Math.floor((duration / 1000) % 60)),
-        })
+    TimeCountDown = () => {
+        const intervalCountDownt = setInterval(() => { this.getTime() }, 1000);
+        this.setState({ intervalCountDownt });
+        return () => clearInterval(intervalCountDownt);
     }
-    stopInterval = () => {
-        clearInterval(this.state.intervalId);
-    };
-    useEffect = () => {
-        const interval = setInterval(() => this.getTime(), 1000);
-        return () => clearInterval(interval);
+    getTime = () => {
+        let time = Date.parse(this.state.dataTransaction.expiry_date) - Date.now();
+        if (time <= 0) {
+            clearInterval(this.state.intervalCountDownt);
+            clearInterval(this.state.intervalStatusOrder);
+            this.setState({ countDowm: false });
+            localStorage.removeItem('TSV_Order');
+        } else {
+            this.setState({
+                setMinutes: (Math.floor((time / 1000 / 60) % 60)),
+                setSeconds: (Math.floor((time / 1000) % 60)),
+            })
+        }
     }
     render() {
         let minutes = this.state.setMinutes;
@@ -95,15 +92,19 @@ class checkout extends React.Component {
                     </div>
                     <div className='p-[10px] space-y-[10px]'>
                         <div className='flex items-center justify-center '>
-                            <Image src={dataTransaction.qrcode} width={200} />
-                            {/* <QRCode value="https://ant.design/" status="loading" /> */}
+                            {this.state.countDowm == true &&
+                                <Image src={dataTransaction.qrcode} width={200} />
+                            }
                         </div>
                         <div>
-                            {dataOrder.payment_status == 'pending' &&
-                                <Alert message="Chờ thanh toán" type="warning" showIcon closable />
+                            {this.state.countDowm == false &&
+                                <Alert message="Hết hạn thanh toán" type="warning" showIcon />
                             }
-                            {dataOrder.payment_status == 'success' &&
-                                <Alert message="Thanh toán thành công" type="success" showIcon closable />
+                            {dataOrder.payment_status == 'pending' && this.state.countDowm == true &&
+                                <Alert message="Chờ thanh toán" type="warning" showIcon />
+                            }
+                            {dataOrder.payment_status == 'success' && this.state.countDowm == true &&
+                                <Alert message="Thanh toán thành công" type="success" showIcon />
                             }
                         </div>
                         <div className='text-center text-red-600 border p-[4px] shadow-sm rounded-[3px]'>

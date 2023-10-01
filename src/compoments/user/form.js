@@ -1,8 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import {
-    MinusOutlined, PlusOutlined
-} from '@ant-design/icons';
+import { MinusOutlined, PlusOutlined } from '@ant-design/icons';
 import { Button, Input } from 'antd';
 import { BsFillTicketFill, BsTicketPerforated, BsTicketPerforatedFill } from "react-icons/bs";
 import { toast } from 'react-toastify';
@@ -10,7 +8,6 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import { getEvent, create_buyer, create_order } from '../../services/eventService';
-import { data } from 'autoprefixer';
 const recaptchaRef = React.createRef();
 const ButtonGroup = Button.Group;
 class form extends React.Component {
@@ -46,7 +43,6 @@ class form extends React.Component {
                 ticket: TSV_Order.data.ticket_quantity
             })
         }
-        await this.props.get_data_form_infor(this.state.infor);
         this.useEffect()
         await this.getEvent();
     }
@@ -115,7 +111,7 @@ class form extends React.Component {
     isCheckEmpty = (value) => { return value.trim().length }
     isCheckSpace = (value) => { return (/\s/).test(value); }
     validatephone_numberNumber = (phone_number) => {
-        var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+        const re = /^(?:\+84|0)(?:3[2-9]|5[2689]|7[06-9]|8[1-9]|9[0-46-9])(?:\d{7}|\d{7})$/;
         return re.test(phone_number);
     }
     Validation = () => {
@@ -158,7 +154,6 @@ class form extends React.Component {
         }
         return { code: 0 };
     }
-
     onExpired = () => {
         this.setState({ ReCAPTCHA: null })
     }
@@ -351,7 +346,7 @@ class form extends React.Component {
                             <div className='space-y-[10px]'>
                                 <ReCAPTCHA
                                     ref={recaptchaRef}
-                                    sitekey="6LdYXF0oAAAAAP0nx7fFZuDV48w-RKODoNvCljvP                                    "
+                                    sitekey="6LdUp2UoAAAAANzdUYLxCtzKZfEd6QeLaCjYt6Me"
                                     onChange={(value) => this.handleOnchangRC(value)}
                                     onExpired={() => this.onExpired()}
                                 />,

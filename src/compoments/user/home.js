@@ -15,7 +15,6 @@ class home extends React.Component {
     }
 
     async componentDidMount() {
-        //window.location.reload()
         await this.getEvent();
     }
     checkEvent = (dataEvent) => {
@@ -57,9 +56,8 @@ class home extends React.Component {
     openDialog = (input) => {
         this.setState({ isOpenDialog: input })
     }
-
     goToForm = () => {
-        if (this.state.dataEvent.is_activate == true) {
+        if (this.state.statusEvent == 0) {
             this.props.history.push(`/form`);
         }
     }

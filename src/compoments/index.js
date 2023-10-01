@@ -5,6 +5,8 @@ import Form from '../compoments/user/form';
 import Checkout from '../compoments/user/checkout';
 import Home from '../compoments/user/home';
 import Dashboard from '../compoments/dashboard/index';
+import ErrPage from './page/errPage';
+import Login from './page/login';
 import { getEvent } from './../services/eventService';
 
 class index extends Component {
@@ -60,14 +62,21 @@ class index extends Component {
         return (
             <div>
                 <Switch>
+                    <Route path="/dashboard"><Dashboard /></Route>
+                    <Route path="/login"><Login /></Route>
                     <Route exact path="/"><Home /></Route>
-                    {statusEvent == 0 &&
+                    {statusEvent == 0 ?
                         <>
                             <Route path="/form"><Form /></Route>
                             <Route path="/checkout"><Checkout /></Route>
                         </>
+                        :
+                        <>
+                            <Route path="/form"><ErrPage /></Route>
+                            <Route path="/checkout"><ErrPage /></Route>
+                        </>
                     }
-                    <Route path="/dashboard"><Dashboard /></Route>
+
                 </Switch>
             </div>
         );

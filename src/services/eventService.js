@@ -15,6 +15,9 @@ const getOrder_Id = (id) => {
 const create_transaction = (data) => {
     return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/create-transaction`, data);
 }
+const handlelogin = (data) => {
+    return axios.post(`${process.env.REACT_APP_HOST}auth/api/v1/login`, data);
+}
 export {
-    getEvent, create_buyer, create_order, getOrder_Id, create_transaction
+    getEvent, create_buyer, create_order, getOrder_Id, create_transaction, handlelogin
 }
