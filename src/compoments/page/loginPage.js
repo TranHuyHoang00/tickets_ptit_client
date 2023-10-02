@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Input, } from 'antd';
-import { handlelogin } from '../../services/eventService';
+import { login } from '../../services/userService';
 import { toast } from 'react-toastify';
 
-class login extends Component {
+class loginPage extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -47,9 +47,17 @@ class login extends Component {
         let result = this.Validation();
         if (result.code == 0) {
             try {
-                let data = await handlelogin(this.state.login);
-                console.log('data', data);
+                let data = await login(this.state.login);
+                if (data && data.data && data.data.success == 1) {
+                    localStorage.setItem('TSV_AcountDB', JSON.stringify(
+                        { data: data.data.data }
+                    ))
+                    this.props.history.push(`/dashboard`);
+                } else {
+                    toast.error("Sai thông tin đăng nhập")
+                }
             } catch (e) {
+                toast.error("Sai thông tin đăng nhập")
                 console.log('Lỗi', e);
             }
         } else {
@@ -65,7 +73,7 @@ class login extends Component {
                     </div>
                     <div>
                         <label>Tài khoản</label>
-                        <Input placeholder='Admin'
+                        <Input placeholder='admin'
                             onChange={(event) => this.handleOnchangeInput(event, 'username')} />
                     </div>
                     <div>
@@ -83,4 +91,4 @@ class login extends Component {
     }
 
 }
-export default withRouter(login);
+export default withRouter(loginPage);

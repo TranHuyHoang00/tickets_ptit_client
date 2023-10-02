@@ -4,7 +4,7 @@ import { QRCode, Space, Image, Alert } from 'antd';
 import { BsFillTicketFill, BsCurrencyExchange, BsTicketPerforatedFill } from "react-icons/bs";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-import { getOrder_Id, create_transaction } from '../../services/eventService';
+import { getOrder, create_transaction } from '../../services/eventService';
 class checkout extends React.Component {
     constructor(props) {
         super(props);
@@ -31,7 +31,7 @@ class checkout extends React.Component {
     }
     handleGetOrder_Id = async (id) => {
         try {
-            let data = await getOrder_Id(id);
+            let data = await getOrder(id);
             if (data && data.data && data.data.success == 1) {
                 this.setState({ dataOrder: data.data.data });
                 if (data.data.data.payment_status == 'success') {

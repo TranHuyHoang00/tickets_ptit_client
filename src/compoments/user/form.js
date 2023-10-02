@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import ReCAPTCHA from "react-google-recaptcha";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-import { getEvent, create_buyer, create_order } from '../../services/eventService';
+import { getEvent, createBuyer, createOrder } from '../../services/eventService';
 const recaptchaRef = React.createRef();
 const ButtonGroup = Button.Group;
 class form extends React.Component {
@@ -157,9 +157,9 @@ class form extends React.Component {
     onExpired = () => {
         this.setState({ ReCAPTCHA: null })
     }
-    create_buyer = async (input) => {
+    createBuyer = async (input) => {
         try {
-            let data = await create_buyer(input);
+            let data = await createBuyer(input);
             if (data && data.data && data.data.success == 1) {
                 return data.data.data
             } else {
@@ -169,9 +169,9 @@ class form extends React.Component {
             console.log('Lỗi', e);
         }
     }
-    create_order = async (input) => {
+    createOrder = async (input) => {
         try {
-            let data = await create_order(input);
+            let data = await createOrder(input);
             if (data && data.data && data.data.success == 1) {
                 return data.data.data
             } else {
@@ -184,7 +184,7 @@ class form extends React.Component {
     handleSubmit = async () => {
         let result = this.Validation();
         if (result.code == 0) {
-            let dataBuyer = await this.create_buyer(this.state.infor);
+            let dataBuyer = await this.createBuyer(this.state.infor);
             if (dataBuyer == null) {
                 toast.error("Tạo thông tin thất bại");
             } else {
@@ -192,7 +192,7 @@ class form extends React.Component {
                 obj.buyer = dataBuyer.id;
                 obj.ticket_quantity = this.state.ticket;
                 obj.event = this.state.dataEvent.id;
-                let dataOrder = await this.create_order(obj);
+                let dataOrder = await this.createOrder(obj);
                 if (dataOrder == null) {
                     toast.error("Tạo order thất bại");
                 } else {
