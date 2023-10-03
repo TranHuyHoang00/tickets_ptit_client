@@ -1,7 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 import { Button, Modal, Alert } from 'antd';
-import { toast } from 'react-toastify';
 import { getEvent } from '../../services/eventService';
 class home extends React.Component {
     constructor(props) {

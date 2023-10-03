@@ -47,7 +47,6 @@ class order extends Component {
     getListOrder = async () => {
         try {
             let data = await getListOrder();
-            console.log(data.data.data);
             if (data && data.data && data.data.success == 1) {
                 this.setState({ dataOrders: data.data.data })
             } else {
@@ -96,8 +95,12 @@ class order extends Component {
             }
         }
     }
-    isCheckEmpty = (value) => { return value.trim().length }
-    isCheckSpace = (value) => { return (/\s/).test(value); }
+    isCheckEmpty = (value) => {
+        return value.trim().length
+    }
+    isCheckSpace = (value) => {
+        return (/\s/).test(value);
+    }
     Validation = (data) => {
         return { code: 0 };
     }
@@ -154,7 +157,7 @@ class order extends Component {
                 <Divider>HÓA ĐƠN</Divider>
                 <Table columns={columns} dataSource={this.state.dataOrders}
                     size="small" bordered
-                    pagination={{ pageSize: 10, }}
+                    pagination={{ pageSize: 7, }}
                     scroll={{ y: 300, x: 300, }}
                 />
                 <Modal title="Tạo mới" open={this.state.isOpenFormCreate}
@@ -214,6 +217,10 @@ class order extends Component {
                             <div>
                                 <label>Trạng thái<span className='text-red-500'> *</span></label>
                                 <Input value={dataOrder.payment_status} />
+                            </div>
+                            <div>
+                                <label>Người bán<span className='text-red-500'> *</span></label>
+                                <Input value={dataOrder.user && dataOrder.user.last_name} />
                             </div>
                             <div>
                                 <label>Ngày tạo<span className='text-red-500'> *</span></label>

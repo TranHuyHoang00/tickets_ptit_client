@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { UserOutlined, CaretDownOutlined, } from '@ant-design/icons';
 import { Avatar, Dropdown, Space } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { GetLocalStorage, RemoveLocalStorage } from '../../../auth/localStorage';
+import { GetLocal_AcountDB, RemoveLocal_AcountDB } from '../../../auth/localStorage';
 
 class header extends Component {
     constructor(props) {
@@ -12,13 +12,13 @@ class header extends Component {
         }
     }
     async componentDidMount() {
-        let dataLogin = GetLocalStorage('TSV_AcountDB');
+        let dataLogin = GetLocal_AcountDB();
         if (dataLogin && dataLogin.data && dataLogin.data.access) {
             this.setState({ dataAcount: dataLogin.data.user })
         } else { this.setState({ dataAcount: {} }) }
     }
     LogOut = () => {
-        RemoveLocalStorage('TSV_AcountDB');
+        RemoveLocal_AcountDB();
         this.props.history.push(`/login`);
     }
     render() {

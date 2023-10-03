@@ -120,82 +120,45 @@ class buyer extends Component {
             },
         ];
         return (
-            <div className='m-[10px] p-[10px] border shadow-md bg-white'>
-                <Button disabled size='small' onClick={() => this.openForm('create', true)} type='default' className='bg-black text-white'>Tạo mới</Button>
-                <Divider>NGƯỜI MUA</Divider>
-                <Table columns={columns} dataSource={this.state.dataBuyers}
-                    size="small" bordered
-                    pagination={{ pageSize: 10, }}
-                    scroll={{ y: 300, x: 300, }}
-                />
-                <Modal title="Tạo mới" open={this.state.isOpenFormCreate}
-                    okText={'Xác nhận'} okType={'default'} cancelText={'Hủy bỏ'}
-                    onOk={() => this.handleCreate()}
-                    onCancel={() => this.openForm('create', false)}
-                    width={300} >
-                    <div className='space-y-[10px]'>
-                        <div>
-                            <label>Họ tên<span className='text-red-500'> *</span></label>
-                            <Input />
+            <>
+                <div className='m-[10px] p-[10px] border shadow-md bg-white'>
+                    <Button disabled size='small' onClick={() => this.openForm('create', true)} type='default' className='bg-black text-white'>Tạo mới</Button>
+                    <Divider>NGƯỜI MUA</Divider>
+                    <Table columns={columns} dataSource={this.state.dataBuyers}
+                        size="small" bordered
+                        pagination={{ pageSize: 7, }}
+                        scroll={{ y: 300, x: 300, }}
+                    />
+                    <Modal title="Tạo mới" open={this.state.isOpenFormCreate}
+                        okText={'Xác nhận'} okType={'default'} cancelText={'Hủy bỏ'}
+                        onOk={() => this.handleCreate()}
+                        onCancel={() => this.openForm('create', false)}
+                        width={300} >
+                        <div className='space-y-[10px]'>
+                            <div>
+                                <label>Họ tên<span className='text-red-500'> *</span></label>
+                                <Input />
+                            </div>
+                            <div>
+                                <label>Mã sinh viên<span className='text-red-500'> *</span></label>
+                                <Input />
+                            </div>
+                            <div>
+                                <label>Số điện thoại<span className='text-red-500'> *</span></label>
+                                <Input />
+                            </div>
                         </div>
-                        <div>
-                            <label>Mã sinh viên<span className='text-red-500'> *</span></label>
-                            <Input />
-                        </div>
-                        <div>
-                            <label>Số điện thoại<span className='text-red-500'> *</span></label>
-                            <Input />
-                        </div>
-                    </div>
-                </Modal>
-                <Modal title="Chi tiết" open={this.state.isOpenFormDetail}
-                    okText={'Xác nhận'} okType={'default'} cancelText={'Hủy bỏ'}
-                    onOk={() => this.openForm('detail', false, null)}
-                    onCancel={() => this.openForm('detail', false, null)}
-                    width={300}
-                >
-                    <div className='space-y-[10px]'>
-                        <div>
-                            <label>Id<span className='text-red-500'> *</span></label>
-                            <Input value={dataBuyer.id} />
-                        </div>
-                        <div>
-                            <label>Họ tên<span className='text-red-500'> *</span></label>
-                            <Input value={dataBuyer.full_name} />
-                        </div>
-                        <div>
-                            <label>Mã sinh viên<span className='text-red-500'> *</span></label>
-                            <Input value={dataBuyer.student_id} />
-                        </div>
-                        <div>
-                            <label>Email<span className='text-red-500'> *</span></label>
-                            <Input value={dataBuyer.email} />
-                        </div>
-                        <div>
-                            <label>Số điện thoại<span className='text-red-500'> *</span></label>
-                            <Input value={dataBuyer.phone_number} />
-                        </div>
-                        <div>
-                            <label>Ngày tạo<span className='text-red-500'> *</span></label>
-                            <Input value={dataBuyer.created_at} />
-                        </div>
-                        <div>
-                            <label>Ngày cập nhập<span className='text-red-500'> *</span></label>
-                            <Input value={dataBuyer.updated_at} />
-                        </div>
-                    </div>
-                </Modal>
-                <Modal title="Chỉnh sửa" open={this.state.isOpenFormEdit}
-                    okText={'Xác nhận'} okType={'default'} cancelText={'Hủy bỏ'}
-                    onOk={() => this.handleEdit(this.state.idBuyer)}
-                    onCancel={() => this.openForm('edit', false, null)}
-                    width={300}
-                >
-                    <div className='space-y-[10px]'>
+                    </Modal>
+                    <Modal title="Chi tiết" open={this.state.isOpenFormDetail}
+                        okText={'Xác nhận'} okType={'default'} cancelText={'Hủy bỏ'}
+                        onOk={() => this.openForm('detail', false, null)}
+                        onCancel={() => this.openForm('detail', false, null)}
+                        width={300}
+                    >
                         <div className='space-y-[10px]'>
                             <div>
                                 <label>Id<span className='text-red-500'> *</span></label>
-                                <Input value={dataBuyer.id} disabled />
+                                <Input value={dataBuyer.id} />
                             </div>
                             <div>
                                 <label>Họ tên<span className='text-red-500'> *</span></label>
@@ -207,7 +170,7 @@ class buyer extends Component {
                             </div>
                             <div>
                                 <label>Email<span className='text-red-500'> *</span></label>
-                                <Input value={dataBuyer.email} disabled />
+                                <Input value={dataBuyer.email} />
                             </div>
                             <div>
                                 <label>Số điện thoại<span className='text-red-500'> *</span></label>
@@ -215,16 +178,55 @@ class buyer extends Component {
                             </div>
                             <div>
                                 <label>Ngày tạo<span className='text-red-500'> *</span></label>
-                                <Input value={dataBuyer.created_at} disabled />
+                                <Input value={dataBuyer.created_at} />
                             </div>
                             <div>
                                 <label>Ngày cập nhập<span className='text-red-500'> *</span></label>
-                                <Input value={dataBuyer.updated_at} disabled />
+                                <Input value={dataBuyer.updated_at} />
                             </div>
                         </div>
-                    </div>
-                </Modal>
-            </div>
+                    </Modal>
+                    <Modal title="Chỉnh sửa" open={this.state.isOpenFormEdit}
+                        okText={'Xác nhận'} okType={'default'} cancelText={'Hủy bỏ'}
+                        onOk={() => this.handleEdit(this.state.idBuyer)}
+                        onCancel={() => this.openForm('edit', false, null)}
+                        width={300}
+                    >
+                        <div className='space-y-[10px]'>
+                            <div className='space-y-[10px]'>
+                                <div>
+                                    <label>Id<span className='text-red-500'> *</span></label>
+                                    <Input value={dataBuyer.id} disabled />
+                                </div>
+                                <div>
+                                    <label>Họ tên<span className='text-red-500'> *</span></label>
+                                    <Input value={dataBuyer.full_name} />
+                                </div>
+                                <div>
+                                    <label>Mã sinh viên<span className='text-red-500'> *</span></label>
+                                    <Input value={dataBuyer.student_id} />
+                                </div>
+                                <div>
+                                    <label>Email<span className='text-red-500'> *</span></label>
+                                    <Input value={dataBuyer.email} disabled />
+                                </div>
+                                <div>
+                                    <label>Số điện thoại<span className='text-red-500'> *</span></label>
+                                    <Input value={dataBuyer.phone_number} />
+                                </div>
+                                <div>
+                                    <label>Ngày tạo<span className='text-red-500'> *</span></label>
+                                    <Input value={dataBuyer.created_at} disabled />
+                                </div>
+                                <div>
+                                    <label>Ngày cập nhập<span className='text-red-500'> *</span></label>
+                                    <Input value={dataBuyer.updated_at} disabled />
+                                </div>
+                            </div>
+                        </div>
+                    </Modal>
+                </div>
+            </>
         );
     }
 

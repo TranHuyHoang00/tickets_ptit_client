@@ -70,8 +70,12 @@ class event extends Component {
             }
         }
     }
-    isCheckEmpty = (value) => { return value.trim().length }
-    isCheckSpace = (value) => { return (/\s/).test(value); }
+    isCheckEmpty = (value) => {
+        return value.trim().length
+    }
+    isCheckSpace = (value) => {
+        return (/\s/).test(value);
+    }
     Validation = (data) => {
         return { code: 0 };
     }
@@ -87,7 +91,6 @@ class event extends Component {
     handleCreate = async () => {
     }
     handleEdit = async (id) => {
-        console.log(this.state.dataEvent);
         let result = this.ValidationEdit(this.state.dataEvent);
         if (result.code == 0) {
             try {
@@ -144,7 +147,7 @@ class event extends Component {
                 <Divider>SỰ KIỆN</Divider>
                 <Table columns={columns} dataSource={this.state.dataEvents}
                     size="small" bordered
-                    pagination={{ pageSize: 10, }}
+                    pagination={{ pageSize: 7, }}
                     scroll={{ y: 300, x: 300, }}
                 />
                 <Modal title="Tạo mới" open={this.state.isOpenFormCreate}

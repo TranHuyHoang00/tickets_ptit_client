@@ -1,10 +1,10 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
-import { QRCode, Space, Image, Alert } from 'antd';
-import { BsFillTicketFill, BsCurrencyExchange, BsTicketPerforatedFill } from "react-icons/bs";
+import { Image, Alert } from 'antd';
+import { BsCurrencyExchange, BsTicketPerforatedFill } from "react-icons/bs";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
-import { getOrder, create_transaction } from '../../services/eventService';
+import { getOrder, createTransaction } from '../../services/eventService';
 class checkout extends React.Component {
     constructor(props) {
         super(props);
@@ -17,26 +17,27 @@ class checkout extends React.Component {
         }
     }
     async componentDidMount() {
-        let TSV_Order = JSON.parse(window.localStorage.getItem('TSV_Order'));
+        let TSV_Order = JSON.parse(window.localStorage.getItem(`${process.env.REACT_APP_LOCALHOST_NAME}`));
         if (TSV_Order && TSV_Order.data) {
+            await this.createTransaction({ order: TSV_Order.data.id });
             this.checkStatusOrder(TSV_Order.data.id)
-            await this.create_transaction({ order: TSV_Order.data.id });
             this.TimeCountDown()
         }
     }
     checkStatusOrder = async (id) => {
-        const intervalStatusOrder = setInterval(() => { this.handleGetOrder_Id(id) }, 1000);
+        const intervalStatusOrder = setInterval(() => { this.getOrder(id) }, 1000);
         this.setState({ intervalStatusOrder });
         return () => clearInterval(intervalStatusOrder);
     }
-    handleGetOrder_Id = async (id) => {
+    getOrder = async (id) => {
         try {
             let data = await getOrder(id);
             if (data && data.data && data.data.success == 1) {
                 this.setState({ dataOrder: data.data.data });
                 if (data.data.data.payment_status == 'success') {
-                    localStorage.removeItem('TSV_Order');
+                    localStorage.removeItem(`${process.env.REACT_APP_LOCALHOST_NAME}`);
                     clearInterval(this.state.intervalStatusOrder);
+                    clearInterval(this.state.intervalCountDownt);
                     setTimeout(() => { this.props.history.push(`/`) }, 5000);
                 }
             } else {
@@ -46,9 +47,9 @@ class checkout extends React.Component {
             console.log('Lỗi', e);
         }
     }
-    create_transaction = async (input) => {
+    createTransaction = async (input) => {
         try {
-            let data = await create_transaction(input);
+            let data = await createTransaction(input);
             if (data && data.data && data.data.success == 1) {
                 this.setState({ dataTransaction: data.data.data });
             } else {
@@ -69,7 +70,7 @@ class checkout extends React.Component {
             clearInterval(this.state.intervalCountDownt);
             clearInterval(this.state.intervalStatusOrder);
             this.setState({ countDowm: false });
-            localStorage.removeItem('TSV_Order');
+            localStorage.removeItem(`${process.env.REACT_APP_LOCALHOST_NAME}`);
         } else {
             this.setState({
                 setMinutes: (Math.floor((time / 1000 / 60) % 60)),

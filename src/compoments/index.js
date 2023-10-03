@@ -62,8 +62,8 @@ class index extends Component {
         return (
             <div>
                 <Switch>
-                    <Route path="/login"><LoginPage /></Route>
                     <Route exact path="/"><Home /></Route>
+                    <Route path="/login"><LoginPage /></Route>
                     <Route path="/dashboard"><Dashboard /></Route>
                     {statusEvent == 0 ?
                         <>

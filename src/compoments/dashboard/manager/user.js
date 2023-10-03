@@ -14,13 +14,7 @@ class user extends Component {
             isOpenFormCreate: false,
             isOpenFormDetail: false,
             isOpenFormEdit: false,
-            dataUser: {
-                // username: '',
-                // password: '',
-                // password2: '',
-                // first_name: '',
-                // last_name: '',
-            },
+            dataUser: {},
             dataUsers: [],
             idUser: '',
         }
@@ -78,8 +72,12 @@ class user extends Component {
             }
         }
     }
-    isCheckEmpty = (value) => { return value.trim().length }
-    isCheckSpace = (value) => { return (/\s/).test(value); }
+    isCheckEmpty = (value) => {
+        return value.trim().length
+    }
+    isCheckSpace = (value) => {
+        return (/\s/).test(value);
+    }
     Validation = (data) => {
         if (!data.username) {
             return { mess: "Thiếu tài khoản", code: 1 };
@@ -175,7 +173,7 @@ class user extends Component {
                 if (data && data.data && data.data.success == 1) {
                     toast.success('Thành công')
                     await this.getListUser();
-                    this.setState({ isOpenFormEdit: false })
+                    this.setState({ isOpenFormEdit: false, dataUser: {} })
                 } else {
                     toast.error('Tài khoản đã tồn tại')
                 }
@@ -208,9 +206,12 @@ class user extends Component {
             },
             {
                 title: 'Họ', dataIndex: 'first_name', responsive: ['md'],
+                sorter: (a, b) => a.first_name.localeCompare(b.first_name),
+
             },
             {
                 title: 'Tên', dataIndex: 'last_name', responsive: ['md'],
+                sorter: (a, b) => a.last_name.localeCompare(b.last_name),
             },
             {
                 title: 'Tài khoản', dataIndex: 'username',
@@ -235,7 +236,7 @@ class user extends Component {
                 <Divider>TÀI KHOẢN</Divider>
                 <Table columns={columns} dataSource={this.state.dataUsers}
                     size="small" bordered
-                    pagination={{ pageSize: 10, }}
+                    pagination={{ pageSize: 7, }}
                     scroll={{ y: 300, x: 300, }}
                 />
                 <Modal title="Tạo mới" open={this.state.isOpenFormCreate}

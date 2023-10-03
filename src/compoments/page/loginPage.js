@@ -49,7 +49,7 @@ class loginPage extends Component {
             try {
                 let data = await login(this.state.login);
                 if (data && data.data && data.data.success == 1) {
-                    localStorage.setItem('TSV_AcountDB', JSON.stringify(
+                    localStorage.setItem(`${process.env.REACT_APP_LOCALHOST_ACOUNT_DB}`, JSON.stringify(
                         { data: data.data.data }
                     ))
                     this.props.history.push(`/dashboard`);

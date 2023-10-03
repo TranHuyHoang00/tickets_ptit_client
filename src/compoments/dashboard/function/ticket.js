@@ -6,41 +6,23 @@ import { BsFillTicketFill, BsTicketPerforated, BsTicketPerforatedFill } from "re
 import { toast } from 'react-toastify';
 import ReCAPTCHA from "react-google-recaptcha";
 import { connect } from 'react-redux';
-import * as actions from '../../store/actions';
-import { getEvent, createBuyer, createOrder } from '../../services/eventService';
+import * as actions from '../../../store/actions';
+import { getEvent, createBuyer, createOrderStaff, createTicket } from '../../../services/eventService';
+
 const recaptchaRef = React.createRef();
 const ButtonGroup = Button.Group;
-class form extends React.Component {
+class ticket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             infor: {},
             ticket: 1,
             ReCAPTCHA: null,
-            setDays: '',
-            setHours: '',
-            setMinutes: '',
-            setSeconds: '',
             dataEvent: {},
         }
     }
     async componentDidMount() {
-        this.timeCountDown()
         await this.getEvent();
-        let TSV_Order = JSON.parse(window.localStorage.getItem(`${process.env.REACT_APP_LOCALHOST_NAME}`));
-        if (TSV_Order && TSV_Order.data) {
-            let dataBuyer = TSV_Order.data.buyer;
-            let infor = this.state.infor;
-            infor.full_name = dataBuyer.full_name;
-            infor.phone_number = dataBuyer.phone_number;
-            infor.student_id = dataBuyer.student_id;
-            this.setState({
-                ...this.state.infor,
-                infor: infor,
-                ticket: TSV_Order.data.ticket_quantity
-            })
-        }
-
     }
     getEvent = async () => {
         try {
@@ -48,25 +30,11 @@ class form extends React.Component {
             if (data && data.data && data.data.success == 1) {
                 this.setState({ dataEvent: data.data.data })
             } else {
-                return this.setState({ dataEvent: {} })
+                this.setState({ dataEvent: {} })
             }
         } catch (e) {
             console.log('Lỗi', e);
         }
-    }
-    getTime = () => {
-        let deadline = this.state.dataEvent.expiry_date;
-        let time = Date.parse(deadline) - Date.now();
-        this.setState({
-            setDays: (Math.floor(time / (1000 * 60 * 60 * 24))),
-            setHours: (Math.floor((time / (1000 * 60 * 60)) % 24)),
-            setMinutes: (Math.floor((time / 1000 / 60) % 60)),
-            setSeconds: (Math.floor((time / 1000) % 60)),
-        })
-    }
-    timeCountDown = () => {
-        const interval = setInterval(() => this.getTime(), 1000);
-        return () => clearInterval(interval);
     }
     onClickDecline = () => {
         let ticket = this.state.ticket;
@@ -166,9 +134,21 @@ class form extends React.Component {
             console.log('Lỗi', e);
         }
     }
-    createOrder = async (input) => {
+    createOrderStaff = async (input) => {
         try {
-            let data = await createOrder(input);
+            let data = await createOrderStaff(input);
+            if (data && data.data && data.data.success == 1) {
+                return data.data.data
+            } else {
+                return null
+            }
+        } catch (e) {
+            console.log('Lỗi', e);
+        }
+    }
+    createTicket = async (input) => {
+        try {
+            let data = await createTicket(input);
             if (data && data.data && data.data.success == 1) {
                 return data.data.data
             } else {
@@ -189,14 +169,17 @@ class form extends React.Component {
                 order.buyer = dataBuyer.id;
                 order.ticket_quantity = this.state.ticket;
                 order.event = this.state.dataEvent.id;
-                let dataOrder = await this.createOrder(order);
+                order.payment_status = "success";
+                let dataOrder = await this.createOrderStaff(order);
                 if (dataOrder == null) {
                     toast.error("Tạo order thất bại");
                 } else {
-                    localStorage.setItem(`${process.env.REACT_APP_LOCALHOST_NAME}`, JSON.stringify(
-                        { data: dataOrder }
-                    ))
-                    this.props.history.push(`/checkout`);
+                    let dataTicket = await this.createTicket({ order: dataOrder.id });
+                    if (dataTicket == null) {
+                        toast.error("Tạo vé thất bại");
+                    } else {
+                        toast.success("Đăng ký vé thành công");
+                    }
                 }
             }
         } else {
@@ -204,90 +187,16 @@ class form extends React.Component {
         }
     }
     render() {
-        let days = this.state.setDays;
-        let hours = this.state.setHours;
-        let minutes = this.state.setMinutes;
-        let seconds = this.state.setSeconds;
-        let dataEvent = this.state.dataEvent;
         let infor = this.state.infor;
         return (
-            <div className=' md:w-screen md:h-screen h-auto w-auto
-            flex items-center justify-center font-semibold'>
+            <div className=' h-auto w-auto flex items-center justify-center font-semibold'>
                 <div className='p-[10px]'>
                     <div className='bg-gradient-to-r from-[#1e9dee] to-[#a951e9]
                     text-center p-[10px] rounded-t-[10px]'>
-                        <label className='text-white font-[500] text-[20px]'>ĐĂNG KÝ MUA VÉ</label>
+                        <label className='text-white font-[500] text-[20px]'>BÁN VÉ OFFLINE</label>
                     </div>
-                    <div className='md:grid grid-cols-2 
-                    border shadow-md rounded-b-[10px]'>
-                        <div className=' flex justify-center p-[14px] border-r'>
-                            <div className='text-center font-[700] space-y-[10px]'>
-                                <label className='text-[24px] font-serif:'>{dataEvent.event_name}</label> <br />
-                                <div className='text-[16px] p-[6px] space-x-[6px]
-                                flex items-center justify-center  text-white border rounded-[10px] shadow-md'>
-                                    <div className='bg-[#00bf96] p-[10px] rounded-[8px] space-y-[2px]'>
-                                        <div className=''>
-                                            <span className='bg-[#00816a] p-[5px] rounded-[5px]'>{days < 10 ? "0" + days : days} </span>
-                                        </div>
-                                        <div><span>Ngày</span></div>
-                                    </div>
-                                    <div className='bg-[#00bf96] p-[10px] rounded-[8px] space-y-[2px]'>
-                                        <div className=''>
-                                            <span className='bg-[#00816a] p-[5px] rounded-[5px]'>{hours < 10 ? "0" + hours : hours} </span>
-                                        </div>
-                                        <div><span>Giờ</span></div>
-                                    </div>
-                                    <div className='bg-[#00bf96] p-[10px] rounded-[8px] space-y-[2px]'>
-                                        <div className=''>
-                                            <span className='bg-[#00816a] p-[5px] rounded-[5px]'>{minutes < 10 ? "0" + minutes : minutes} </span>
-                                        </div>
-                                        <div><span>Phút</span></div>
-                                    </div>
-                                    <div className='bg-[#00bf96] p-[10px] rounded-[8px] space-y-[2px]'>
-                                        <div className=''>
-                                            <span className='bg-[#00816a] p-[5px] rounded-[5px]'>{seconds < 10 ? "0" + seconds : seconds} </span>
-                                        </div>
-                                        <div><span>Giây</span></div>
-                                    </div>
-                                </div>
-                                <div className='space-y-[10px]'>
-                                    <div className='flex items-center justify-center bg-gradient-to-r from-[#7ccdff] to-[#7196ff]
-                                    border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
-                                        <div className='text-[50px]'><BsFillTicketFill /></div>
-                                        <div className='text-[16px]'>
-                                            <div className='text-[12px]'><label>Tổng vé</label></div>
-                                            <div><label className=''>{dataEvent.total_ticket} vé</label></div>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center justify-center bg-gradient-to-r from-[#fda682] to-[#f7789d]
-                                    border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
-                                        <div className='text-[50px]'><BsTicketPerforatedFill /></div>
-                                        <div className='text-[16px]'>
-                                            <div className='text-[12px]'><label>Đã bán</label></div>
-                                            <div><label className=''>{dataEvent.total_ticket - dataEvent.avaliable_ticket} vé</label></div>
-                                        </div>
-                                    </div>
-                                    <div className='flex items-center justify-center bg-gradient-to-r from-[#17f0a1] to-[#04ce89]
-                                    border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
-                                        <div className='text-[50px]'><BsTicketPerforated /></div>
-                                        <div className='text-[16px]'>
-                                            <div className='text-[12px]'><label>Còn lại</label></div>
-                                            <div><label className=''>{dataEvent.avaliable_ticket} vé</label></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className='text-[16px] text-[#414e66]'>
-                                    <label>Ngày hết hạn : {dataEvent.expiry_date}</label>
-                                </div>
-                                <div className='text-[12px] 
-                                text-red-500 border border-red-500 p-[10px] rounded-[10px] shadow-sm '>
-                                    <span>Vui lòng điền đầy đủ </span><br />
-                                    <span>và chính xác thông tin đăng ký</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div className=' border-t md:border-none
-                        px-[30px] py-[10px] text-[16px] space-y-[16px]'>
+                    <div className='border shadow-md rounded-b-[10px]'>
+                        <div className=' border-t md:border-none px-[20px] py-[10px] text-[16px] space-y-[16px] bg-white'>
                             <div className='space-y-[3px]'>
                                 <div><label className=''>Mã sinh viên<span className='text-red-600 text-[12px]'> * Bắt buộc</span> </label></div>
                                 <div className='border-b shadow-sm'>
@@ -349,4 +258,4 @@ const mapDispatchToProps = dispatch => {
     return {
     };
 };
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(form));
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ticket));
