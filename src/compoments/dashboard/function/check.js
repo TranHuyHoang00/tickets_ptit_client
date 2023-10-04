@@ -167,7 +167,9 @@ class check extends Component {
                 >
                     <div className='flex items-center justify-center'>
                         <div>
-                            <QrReader constraints={{ facingMode: 'user' }}
+                            <QrReader constraints={{
+                                facingMode: 'environment'
+                            }}
                                 onResult={(result, error) => this.handleQRcheck(result, error)}
                                 className='w-[250px] h-[300px]' />
                             <div>
