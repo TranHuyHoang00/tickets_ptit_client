@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Switch, Route } from "react-router-dom";
 import { DatabaseOutlined, } from '@ant-design/icons';
-import { Table, Space, Modal, Divider, Button, Input, Popconfirm, Select } from 'antd';
+import { Table, Space, Modal, Divider, Button, Input, Popconfirm, Select, AutoComplete } from 'antd';
 import { AiFillEdit, AiFillDelete, AiFillEye } from "react-icons/ai";
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getListOrder, getOrder } from '../../../services/eventService';
+import { getListOrder, getOrder, getListBuyer } from '../../../services/eventService';
 class order extends Component {
     constructor(props) {
         super(props);
@@ -20,10 +20,47 @@ class order extends Component {
             dataStatistic: {
                 total_amount: 0,
                 total_ticket: 0,
-            }
+            },
+            dataBuyers: [],
+            dataSearch: [],
         }
     }
     async componentDidMount() {
+        await this.getListOrder();
+        await this.getListBuyer();
+    }
+    getListBuyer = async () => {
+        try {
+            let data = await getListBuyer();
+            if (data && data.data && data.data.success == 1) {
+                let dataRaw = data.data.data;
+                let dataFilter = [];
+                for (const i of dataRaw) {
+                    const obj = {};
+                    obj.key = i.id;
+                    obj.value = i.full_name;
+                    dataFilter.push(obj);
+                }
+                this.setState({ dataBuyers: data.data.data, dataSearch: dataFilter })
+            } else {
+                this.setState({ dataBuyers: {} })
+            }
+        } catch (e) {
+            console.log('Lỗi', e);
+        }
+    }
+    onSelect = async (value, option) => {
+        await this.getListOrder();
+        let dataOrders = this.state.dataOrders;
+        let dataFilter = [];
+        for (const i of dataOrders) {
+            if (i && i.buyer && i.buyer.id == option.key) {
+                dataFilter.push(i);
+            }
+        }
+        this.setState({ dataOrders: dataFilter })
+    }
+    onClearAutoComplete = async () => {
         await this.getListOrder();
     }
     onChange_payment_status = (value) => {
@@ -136,6 +173,10 @@ class order extends Component {
                 sorter: (a, b) => a.payment_status.localeCompare(b.payment_status),
             },
             {
+                title: 'Ngày tạo', dataIndex: 'created_at', responsive: ['md'],
+                sorter: (a, b) => a.created_at.localeCompare(b.created_at),
+            },
+            {
                 title: 'Hđ', width: 100,
                 render: (_, record) => (
                     <Space size="small">
@@ -151,8 +192,18 @@ class order extends Component {
         return (
             <div className='m-[10px] p-[10px] border shadow-md bg-white'>
                 <div className='flex items-center justify-between'>
-                    <Button disabled size='small' onClick={() => this.openForm('create', true)} type='default' className='bg-black text-white'>Tạo mới</Button>
+                    {/* <Button disabled size='small' onClick={() => this.openForm('create', true)} type='default' className='bg-black text-white'>Tạo mới</Button> */}
                     <Button size='small' onClick={() => this.openForm('statistic', true)} type='default' className='bg-black text-white'>Thống kê</Button>
+                    <AutoComplete className='md:w-[300px] w-[200px]'
+                        options={this.state.dataSearch}
+                        onSelect={(value, option) => this.onSelect(value, option)}
+                        placeholder="Tìm tên"
+                        filterOption={(inputValue, option) =>
+                            option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                        }
+                        onClear={() => this.onClearAutoComplete()}
+                        allowClear
+                    />
                 </div>
                 <Divider>HÓA ĐƠN</Divider>
                 <Table columns={columns} dataSource={this.state.dataOrders}

@@ -7,7 +7,6 @@ import { AiOutlineScan } from "react-icons/ai";
 import { QrReader } from 'react-qr-reader';
 import { getTicket, editTicket, createStudent } from '../../../services/eventService';
 import { toast } from 'react-toastify';
-import jsQR from 'jsqr';
 
 class check extends Component {
     constructor(props) {
@@ -20,19 +19,16 @@ class check extends Component {
             statusCheck: 0,
             dataTicket: {},
             dataStudent: {},
+            isOpenCamera: false,
         }
     }
-    // videoRef = React.createRef();
-    // canvasRef = React.createRef();
-    // startCamera = async () => {
-    //     try {
-    //         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    //         this.videoRef.current.srcObject = stream;
-    //     } catch (error) {
-    //         console.error('Không thể truy cập camera:', error);
-    //     }
-    // };
     async componentDidMount() {
+    }
+    openForm = (name, value) => {
+        if (name == 'check') {
+            this.setState({ isOpenFormCheck: value })
+        }
+        if (name == 'edit') { this.setState({ isOpenCreateStudent: value }) }
     }
     getTicket = async (id) => {
         try {
@@ -53,14 +49,6 @@ class check extends Component {
         } catch (e) {
             console.log('Lỗi', e);
         }
-    }
-
-    openForm = (name, value) => {
-        if (name == 'check') {
-            this.startCamera();
-            this.setState({ isOpenFormCheck: value })
-        }
-        if (name == 'edit') { this.setState({ isOpenCreateStudent: value }) }
     }
     handleQRcheck = async (result, error) => {
         if (!!result) {
@@ -96,7 +84,6 @@ class check extends Component {
             }
         });
     }
-
     isCheckEmpty = (value) => {
         return value.trim().length
     }
@@ -180,13 +167,9 @@ class check extends Component {
                 >
                     <div className='flex items-center justify-center'>
                         <div>
-                            <QrReader
+                            <QrReader constraints={{ facingMode: 'user' }}
                                 onResult={(result, error) => this.handleQRcheck(result, error)}
                                 className='w-[250px] h-[300px]' />
-                            {/* <div>
-                                <video ref={this.videoRef} autoPlay playsInline muted></video>
-                                <canvas ref={this.canvasRef} style={{ display: 'none' }}></canvas>
-                            </div> */}
                             <div>
                                 <div className='space-y-[5px] w-full'>
                                     <div className='text-center border p-[5px] rounded-[5px]'>

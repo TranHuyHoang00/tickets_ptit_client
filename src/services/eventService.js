@@ -45,7 +45,7 @@ const getOrder = (id) => {
 }
 const getListOrder = () => {
     let token = GetLocal_Token()
-    return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/list-order`, {},
+    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/list-order`,
         { headers: { Authorization: `Bearer ${token}` } }
     );
 }
@@ -72,7 +72,13 @@ const editTicket = (data, id) => {
         { headers: { Authorization: `Bearer ${token}` } }
     );
 }
-// 
+const getListTicket = () => {
+    let token = GetLocal_Token()
+    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/list-ticket`,
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
+}
+// Student
 const createStudent = (data) => {
     let token = GetLocal_Token()
     return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/create-student`, data,
@@ -83,6 +89,6 @@ export {
     getListBuyer, createBuyer, getBuyer,
     getListOrder, createOrder, getOrder, createOrderStaff,
     getEvent, createTransaction, getListEvent, editEvent,
-    createTicket, getTicket, editTicket,
+    createTicket, getTicket, editTicket, getListTicket,
     createStudent,
 }

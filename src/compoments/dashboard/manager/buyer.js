@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import { Switch, Route } from "react-router-dom";
 import { DatabaseOutlined, } from '@ant-design/icons';
-import { Table, Space, Modal, Divider, Button, Input, Popconfirm } from 'antd';
+import { Table, Space, Modal, Divider, Button, Input, Popconfirm, AutoComplete, ConfigProvider } from 'antd';
 import { AiFillEdit, AiFillDelete, AiFillEye } from "react-icons/ai";
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getListBuyer, getBuyer } from '../../../services/eventService';
+import { CloseSquareFilled, DeleteOutlined } from '@ant-design/icons';
+
 class buyer extends Component {
     constructor(props) {
         super(props);
@@ -16,6 +18,7 @@ class buyer extends Component {
             dataBuyer: {},
             dataBuyers: [],
             idBuyer: '',
+            dataSearch: [],
         }
     }
     async componentDidMount() {
@@ -24,9 +27,16 @@ class buyer extends Component {
     getListBuyer = async () => {
         try {
             let data = await getListBuyer();
-            console.log(data.data.data);
             if (data && data.data && data.data.success == 1) {
-                this.setState({ dataBuyers: data.data.data })
+                let dataRaw = data.data.data;
+                let dataFilter = [];
+                for (const i of dataRaw) {
+                    const obj = {};
+                    obj.key = i.id;
+                    obj.value = i.full_name;
+                    dataFilter.push(obj);
+                }
+                this.setState({ dataBuyers: data.data.data, dataSearch: dataFilter })
             } else {
                 this.setState({ dataBuyers: {} })
             }
@@ -86,6 +96,17 @@ class buyer extends Component {
     }
     handleDelete = async (id) => {
     }
+    onSelect = async (value, option) => {
+        await this.getListBuyer();
+        let dataBuyers = this.state.dataBuyers;
+        let result = dataBuyers.filter(obj => {
+            return obj.id === option.key
+        })
+        this.setState({ dataBuyers: result })
+    }
+    onClearAutoComplete = async () => {
+        await this.getListBuyer()
+    }
     render() {
         let dataBuyer = this.state.dataBuyer;
         const columns = [
@@ -109,7 +130,7 @@ class buyer extends Component {
             {
                 title: 'Hđ', width: 100,
                 render: (_, record) => (
-                    <Space size="small">
+                    <Space size="small" >
                         <a onClick={() => this.openForm('detail', true, record.id)}><AiFillEye /></a>
                         {/* <a onClick={() => this.openForm('edit', true, record.id)}><AiFillEdit /></a>
                         <Popconfirm title="Xóa ?" okType='default' onConfirm={() => this.handleDelete(record.id)}>
@@ -122,7 +143,19 @@ class buyer extends Component {
         return (
             <>
                 <div className='m-[10px] p-[10px] border shadow-md bg-white'>
-                    <Button disabled size='small' onClick={() => this.openForm('create', true)} type='default' className='bg-black text-white'>Tạo mới</Button>
+                    <div className='flex items-center justify-between'>
+                        <Button disabled size='small' onClick={() => this.openForm('create', true)} type='default' className='bg-black text-white'>Tạo mới</Button>
+                        <AutoComplete className='md:w-[300px] w-[200px]'
+                            options={this.state.dataSearch}
+                            onSelect={(value, option) => this.onSelect(value, option)}
+                            placeholder="Tìm tên"
+                            filterOption={(inputValue, option) =>
+                                option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                            }
+                            onClear={() => this.onClearAutoComplete()}
+                            allowClear
+                        />
+                    </div>
                     <Divider>NGƯỜI MUA</Divider>
                     <Table columns={columns} dataSource={this.state.dataBuyers}
                         size="small" bordered
