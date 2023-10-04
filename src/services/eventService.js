@@ -66,9 +66,23 @@ const createTicket = (data) => {
         { headers: { Authorization: `Bearer ${token}` } }
     );
 }
+const editTicket = (data, id) => {
+    let token = GetLocal_Token();
+    return axios.put(`${process.env.REACT_APP_HOST}ticketify/api/v1/update-ticket/${id}`, data,
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
+}
+// 
+const createStudent = (data) => {
+    let token = GetLocal_Token()
+    return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/create-student`, data,
+        { headers: { Authorization: `Bearer ${token}` } }
+    );
+}
 export {
     getListBuyer, createBuyer, getBuyer,
     getListOrder, createOrder, getOrder, createOrderStaff,
     getEvent, createTransaction, getListEvent, editEvent,
-    createTicket, getTicket,
+    createTicket, getTicket, editTicket,
+    createStudent,
 }
