@@ -48,6 +48,7 @@ class loginPage extends Component {
         if (result.code == 0) {
             try {
                 let data = await login(this.state.login);
+                console.log(data);
                 if (data && data.data && data.data.success == 1) {
                     localStorage.setItem(`${process.env.REACT_APP_LOCALHOST_ACOUNT_DB}`, JSON.stringify(
                         { data: data.data.data }

@@ -7,6 +7,8 @@ import { AiOutlineScan } from "react-icons/ai";
 import { QrReader } from 'react-qr-reader';
 import { getTicket, editTicket, createStudent } from '../../../services/eventService';
 import { toast } from 'react-toastify';
+import jsQR from 'jsqr';
+
 class check extends Component {
     constructor(props) {
         super(props);
@@ -20,6 +22,16 @@ class check extends Component {
             dataStudent: {},
         }
     }
+    // videoRef = React.createRef();
+    // canvasRef = React.createRef();
+    // startCamera = async () => {
+    //     try {
+    //         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    //         this.videoRef.current.srcObject = stream;
+    //     } catch (error) {
+    //         console.error('Không thể truy cập camera:', error);
+    //     }
+    // };
     async componentDidMount() {
     }
     getTicket = async (id) => {
@@ -44,7 +56,10 @@ class check extends Component {
     }
 
     openForm = (name, value) => {
-        if (name == 'check') { this.setState({ isOpenFormCheck: value }) }
+        if (name == 'check') {
+            this.startCamera();
+            this.setState({ isOpenFormCheck: value })
+        }
         if (name == 'edit') { this.setState({ isOpenCreateStudent: value }) }
     }
     handleQRcheck = async (result, error) => {
@@ -168,7 +183,10 @@ class check extends Component {
                             <QrReader
                                 onResult={(result, error) => this.handleQRcheck(result, error)}
                                 className='w-[250px] h-[300px]' />
-
+                            {/* <div>
+                                <video ref={this.videoRef} autoPlay playsInline muted></video>
+                                <canvas ref={this.canvasRef} style={{ display: 'none' }}></canvas>
+                            </div> */}
                             <div>
                                 <div className='space-y-[5px] w-full'>
                                     <div className='text-center border p-[5px] rounded-[5px]'>
