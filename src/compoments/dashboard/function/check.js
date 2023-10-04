@@ -25,8 +25,15 @@ class check extends Component {
     getTicket = async (id) => {
         try {
             let data = await getTicket(id);
-            console.log(data);
             if (data && data.data && data.data.success == 1) {
+                let dataStudent = data.data.data.student;
+                if (dataStudent !== null) {
+                    let dataST = {};
+                    dataST.full_name = dataStudent.full_name;
+                    dataST.student_id = dataStudent.student_id;
+                    dataST.cccd = dataStudent.cccd;
+                    this.setState({ dataStudent: dataST })
+                }
                 return data.data.data
             } else {
                 return null
@@ -59,7 +66,10 @@ class check extends Component {
         }
     }
     stopCamera = (name, value) => {
-        if (name == 'check') { this.setState({ isOpenFormCheck: value }) }
+        if (name == 'check') {
+            window.location.reload();
+            this.setState({ isOpenFormCheck: value })
+        }
         if (name == 'edit') { this.setState({ isOpenCreateStudent: value }) }
     }
     handleOnchangeInput = (event, id) => {
@@ -133,6 +143,7 @@ class check extends Component {
         let statusCheck = this.state.statusCheck;
         let resultQR = this.state.resultQR;
         let dataTicket = this.state.dataTicket;
+        let dataStudent = this.state.dataStudent;
         return (
             <div className='flex items-center justify-center'>
                 <div className='space-y-[10px]'>
@@ -208,15 +219,18 @@ class check extends Component {
                     <div className='space-y-[5px]'>
                         <div>
                             <label>Họ và tên<span className='text-red-600 text-[12px]'> * Bắt buộc</span></label>
-                            <Input onChange={(event) => this.handleOnchangeInput(event, 'full_name')} />
+                            <Input value={dataStudent.full_name}
+                                onChange={(event) => this.handleOnchangeInput(event, 'full_name')} />
                         </div>
                         <div>
                             <label>Mã sinh viên</label>
-                            <Input onChange={(event) => this.handleOnchangeInput(event, 'student_id')} />
+                            <Input value={dataStudent.student_id}
+                                onChange={(event) => this.handleOnchangeInput(event, 'student_id')} />
                         </div>
                         <div>
                             <label>Căn cước</label>
-                            <Input onChange={(event) => this.handleOnchangeInput(event, 'cccd')} />
+                            <Input value={dataStudent.cccd}
+                                onChange={(event) => this.handleOnchangeInput(event, 'cccd')} />
                         </div>
                     </div>
                 </Modal>
