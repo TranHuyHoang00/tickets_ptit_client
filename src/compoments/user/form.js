@@ -8,6 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { connect } from 'react-redux';
 import * as actions from '../../store/actions';
 import { getEvent, createBuyer, createOrder } from '../../services/eventService';
+
 const recaptchaRef = React.createRef();
 const ButtonGroup = Button.Group;
 class form extends React.Component {
@@ -22,6 +23,7 @@ class form extends React.Component {
             setMinutes: '',
             setSeconds: '',
             dataEvent: {},
+            isOpenDialog: false,
         }
     }
     async componentDidMount() {

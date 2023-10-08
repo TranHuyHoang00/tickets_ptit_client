@@ -1,34 +1,25 @@
+import api from '../auth/axiosInterceptor';
 import axios from "axios";
 import { GetLocal_Token } from '../auth/localStorage';
-
 // Event
 const getEvent = () => {
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/get-event/${process.env.REACT_APP_EVENT_CODE}`);
+    return api.get(`ticketify/api/v1/get-event/${process.env.REACT_APP_EVENT_CODE}`);
 }
 const getListEvent = () => {
-    let token = GetLocal_Token()
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/list-event`,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.get(`ticketify/api/v1/list-event`,);
 }
 const editEvent = (id, data) => {
-    let token = GetLocal_Token()
-    return axios.put(`${process.env.REACT_APP_HOST}ticketify/api/v1/update-event/${id}`, data,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.put(`ticketify/api/v1/update-event/${id}`, data,);
 }
 // Buyer
 const createBuyer = (data) => {
-    return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/create-buyer`, data);
+    return api.post(`ticketify/api/v1/create-buyer`, data);
 }
 const getListBuyer = () => {
-    let token = GetLocal_Token()
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/list-buyer`,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.get(`ticketify/api/v1/list-buyer`,);
 }
 const getBuyer = (id) => {
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/get-buyer/${id}`);
+    return api.get(`ticketify/api/v1/get-buyer/${id}`);
 }
 // Order
 const createOrder = (data) => {
@@ -41,49 +32,31 @@ const createOrderStaff = (data) => {
     );
 }
 const getOrder = (id) => {
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/get-order/${id}`);
+    return api.get(`ticketify/api/v1/get-order/${id}`);
 }
 const getListOrder = () => {
-    let token = GetLocal_Token()
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/list-order`,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.get(`ticketify/api/v1/list-order`,);
 }
 // Tran
 const createTransaction = (data) => {
-    return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/create-transaction`, data);
+    return api.post(`ticketify/api/v1/create-transaction`, data);
 }
 // Ticket
 const getTicket = (id) => {
-    let token = GetLocal_Token()
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/get-ticket/${id}`,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.get(`ticketify/api/v1/get-ticket/${id}`,);
 }
 const createTicket = (data) => {
-    let token = GetLocal_Token()
-    return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/create-ticket`, data,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.post(`ticketify/api/v1/create-ticket`, data,);
 }
 const editTicket = (data, id) => {
-    let token = GetLocal_Token();
-    return axios.put(`${process.env.REACT_APP_HOST}ticketify/api/v1/update-ticket/${id}`, data,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.put(`ticketify/api/v1/update-ticket/${id}`, data,);
 }
 const getListTicket = () => {
-    let token = GetLocal_Token()
-    return axios.get(`${process.env.REACT_APP_HOST}ticketify/api/v1/list-ticket`,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.get(`ticketify/api/v1/list-ticket`,);
 }
 // Student
 const createStudent = (data) => {
-    let token = GetLocal_Token()
-    return axios.post(`${process.env.REACT_APP_HOST}ticketify/api/v1/create-student`, data,
-        { headers: { Authorization: `Bearer ${token}` } }
-    );
+    return api.post(`ticketify/api/v1/create-student`, data,);
 }
 export {
     getListBuyer, createBuyer, getBuyer,

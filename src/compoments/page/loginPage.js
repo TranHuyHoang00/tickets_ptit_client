@@ -12,6 +12,7 @@ class loginPage extends Component {
                 username: '',
                 password: '',
             },
+            //data: { refresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5OTM1MjU4MywiaWF0IjoxNjk2NzYwNTgzLCJqdGkiOiI3MjMyM2E1YTQwYTE0MDVmYTQyNTNhOTczNmExZTRiMiIsInVzZXJfaWQiOjJ9.MqdUMe6Zde6Hs4MBLsOsvVQbZ8f_--NkvSAUGXMOEpc", access: "xeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk2NzgyMTgzLCJpYXQiOjE2OTY3NjA1ODMsImp0aSI6ImZjMTFiMmZhYmYwYjRiMmFhYTc4MTM5YTJlYTkxMWU0IiwidXNlcl9pZCI6Mn0.CsOF3dvtd7v_MSkLu2jx1bYuWu9GI2u0liHqrbDncUI", user: { id: 2, username: "admin0", email: "", first_name: "Trần", last_name: "Huy Hoàng00", is_superuser: false } }
         }
     }
     async componentDidMount() {

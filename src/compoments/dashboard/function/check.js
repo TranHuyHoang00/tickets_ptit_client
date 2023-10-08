@@ -7,6 +7,8 @@ import { AiOutlineScan } from "react-icons/ai";
 import { QrReader } from 'react-qr-reader';
 import { getTicket, editTicket, createStudent } from '../../../services/eventService';
 import { toast } from 'react-toastify';
+import errSound from '../../../assets/sounds/err.mp3';
+import sucSound from '../../../assets/sounds/suc.mp3';
 
 class check extends Component {
     constructor(props) {
@@ -55,8 +57,12 @@ class check extends Component {
             this.setState({ resultQR: result.text })
             let dataTicket = await this.getTicket(result.text);
             if (dataTicket == null) {
+                let err = new Audio(errSound);
+                err.play();
                 this.setState({ statusCheck: 1 })
             } else {
+                let suc = new Audio(sucSound);
+                suc.play();
                 this.setState({
                     statusCheck: 2,
                     dataTicket: dataTicket,

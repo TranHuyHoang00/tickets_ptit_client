@@ -15,34 +15,41 @@ class ticket extends Component {
             isOpenFormEdit: false,
             dataTickets: [],
             dataTicket: {},
+            dataSearch: [],
         }
     }
     async componentDidMount() {
         await this.getListTicket();
     }
-
-    // onSelect = async (value, option) => {
-    //     await this.getListTicket();
-    //     let dataTickets = this.state.dataTickets;
-    //     let dataFilter = [];
-    //     for (const i of dataTickets) {
-    //         if (i && i.student && i.student.id == option.key) {
-    //             dataFilter.push(i);
-    //         }
-    //     }
-    //     this.setState({ dataTickets: dataFilter })
-    // }
-    // onClearAutoComplete = async () => {
-    //     await this.getListTicket();
-    // }
-    // onChange_payment_status = (value) => {
-    //     this.Statistic(value);
-    // }
+    onSelect = async (value, option) => {
+        await this.getListTicket();
+        let dataTickets = this.state.dataTickets;
+        let dataFilter = [];
+        for (const i of dataTickets) {
+            if (i && i.student && i.student.id == option.key) {
+                dataFilter.push(i);
+            }
+        }
+        this.setState({ dataTickets: dataFilter })
+    }
+    onClearAutoComplete = async () => {
+        await this.getListTicket();
+    }
     getListTicket = async () => {
         try {
             let data = await getListTicket();
             if (data && data.data && data.data.success == 1) {
-                this.setState({ dataTickets: data.data.data })
+                let dataRaw = data.data.data;
+                let dataFilter = [];
+                for (const i of dataRaw) {
+                    if (i.student !== null) {
+                        const obj = {};
+                        obj.key = i.student.id;
+                        obj.value = i.student.full_name;
+                        dataFilter.push(obj);
+                    }
+                }
+                this.setState({ dataTickets: data.data.data, dataSearch: dataFilter })
             } else {
                 this.setState({ dataTickets: {} })
             }
@@ -118,7 +125,6 @@ class ticket extends Component {
         }
     }
     render() {
-        console.log(this.state.dataTicket);
         let dataTicket = this.state.dataTicket;
         const columns = [
             {
@@ -152,18 +158,25 @@ class ticket extends Component {
         ];
         return (
             <div className='m-[10px] p-[10px] border shadow-md bg-white'>
-                <div className='flex items-center justify-between'>
-                    <div className='space-x-[5px]'>
-                        <label>Trạng thái : </label>
-                        <Select defaultValue="0" style={{ width: 140, }}
-                            onChange={(event) => this.filterTicket(event)}
-                            options={[
-                                { value: '0', label: 'Tất cả', },
-                                { value: '1', label: 'Đã qua cổng', },
-                                { value: '2', label: 'Chưa qua cổng', },
-                            ]}
-                        />
-                    </div>
+                <div className='flex items-center justify-between space-x-[5px]'>
+                    <Select defaultValue="0" style={{ width: 140, }}
+                        onChange={(event) => this.filterTicket(event)}
+                        options={[
+                            { value: '0', label: 'Tất cả', },
+                            { value: '1', label: 'Đã qua cổng', },
+                            { value: '2', label: 'Chưa qua cổng', },
+                        ]}
+                    />
+                    <AutoComplete className='md:w-[300px] w-[160px]'
+                        options={this.state.dataSearch}
+                        onSelect={(value, option) => this.onSelect(value, option)}
+                        placeholder="Tìm tên"
+                        filterOption={(inputValue, option) =>
+                            option.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+                        }
+                        onClear={() => this.onClearAutoComplete()}
+                        allowClear
+                    />
                 </div>
                 <Divider>VÉ</Divider>
                 <Table columns={columns} dataSource={this.state.dataTickets}

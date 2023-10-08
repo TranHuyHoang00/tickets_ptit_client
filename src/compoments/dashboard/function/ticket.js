@@ -179,6 +179,7 @@ class ticket extends React.Component {
                         toast.error("Tạo vé thất bại");
                     } else {
                         toast.success("Đăng ký vé thành công");
+                        this.setState({ infor: {} })
                     }
                 }
             }
