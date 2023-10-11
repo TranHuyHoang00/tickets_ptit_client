@@ -1,26 +1,27 @@
-import api from '../auth/axiosInterceptor';
-import { GetLocal_AcountDB } from '../auth/localStorage';
-const login = (data) => {
-    return api.post(`auth/api/v1/login`, data);
-}
+import api_admin from '../auths/api_admin';
+import { Get_Local_Acount_DB } from '../auths/local_storage';
+
 const getListUser = () => {
-    return api.get(`/auth/api/v1/list-user`,);
+    return api_admin.get(`/auth/api/v1/list-user`,);
 }
 const createUser = (data) => {
-    return api.post(`/auth/api/v1/register`, data,);
+    return api_admin.post(`/auth/api/v1/register`, data,);
 }
 const getUser = (id) => {
-    return api.get(`/auth/api/v1/get-user/${id}`,);
+    return api_admin.get(`/auth/api/v1/get-user/${id}`,);
 }
 const deleteUser = (id) => {
-    return api.delete(`/auth/api/v1/get-user/${id}`,);
+    return api_admin.delete(`/auth/api/v1/get-user/${id}`,);
 }
 const editUser = (id, data) => {
-    return api.put(`/auth/api/v1/get-user/${id}`, data,);
+    return api_admin.put(`/auth/api/v1/get-user/${id}`, data,);
+}
+const login = (data) => {
+    return api_admin.post(`auth/api/v1/login`, data);
 }
 const refreshToken = () => {
-    let data = GetLocal_AcountDB();
-    return api.post(`auth/api/v1/token/refresh`, { refresh: data.data.refresh });
+    let data = Get_Local_Acount_DB();
+    return api_admin.post(`auth/api/v1/token/refresh`, { refresh: data.data.refresh });
 }
 export {
     login, getListUser, createUser, getUser, deleteUser, editUser, refreshToken
