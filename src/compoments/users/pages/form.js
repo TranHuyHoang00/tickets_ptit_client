@@ -253,7 +253,7 @@ class form extends React.Component {
                                     </div>
                                 </div>
                                 <div className='space-y-[10px]'>
-                                    <div className='flex items-center justify-center bg-gradient-to-r from-[#7ccdff] to-[#7196ff]
+                                    {/* <div className='flex items-center justify-center bg-gradient-to-r from-[#7ccdff] to-[#7196ff]
                                     border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
                                         <div className='text-[50px]'><BsFillTicketFill /></div>
                                         <div className='text-[16px]'>
@@ -261,14 +261,14 @@ class form extends React.Component {
                                             <div><label className=''>{dataEvent.total_ticket} vé</label></div>
                                         </div>
                                     </div>
-                                    {/* <div className='flex items-center justify-center bg-gradient-to-r from-[#fda682] to-[#f7789d]
+                                    <div className='flex items-center justify-center bg-gradient-to-r from-[#fda682] to-[#f7789d]
                                     border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
                                         <div className='text-[50px]'><BsTicketPerforatedFill /></div>
                                         <div className='text-[16px]'>
                                             <div className='text-[12px]'><label>Đã bán</label></div>
                                             <div><label className=''>{dataEvent.total_ticket - dataEvent.avaliable_ticket} vé</label></div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className='flex items-center justify-center bg-gradient-to-r from-[#17f0a1] to-[#04ce89]
                                     border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
                                         <div className='text-[50px]'><BsTicketPerforated /></div>
@@ -276,7 +276,7 @@ class form extends React.Component {
                                             <div className='text-[12px]'><label>Còn lại</label></div>
                                             <div><label className=''>{dataEvent.avaliable_ticket} vé</label></div>
                                         </div>
-                                    </div> */}
+                                    </div>
                                 </div>
                                 <div className='text-[16px] text-[#414e66]'>
                                     <label>Ngày hết hạn : {dataEvent.expiry_date}</label>
