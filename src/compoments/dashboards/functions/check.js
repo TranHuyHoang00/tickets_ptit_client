@@ -13,6 +13,7 @@ import sucSound from '../../../assets/sounds/suc.mp3';
 class check extends Component {
     constructor(props) {
         super(props);
+        this.QrReader_Ref = React.createRef();
         this.state = {
             isOpenFormCheck: false,
             isOpenCreateStudent: false,
@@ -28,6 +29,14 @@ class check extends Component {
     }
     openForm = (name, value) => {
         if (name == 'check') {
+            console.log('ref', this.QrReader_Ref);
+            const video = this.QrReader_Ref.current?.state?.mediaStream?.getVideoTracks()[0];
+            if (video && 'getCapabilities' in video) {
+                const capabilities = video.getCapabilities();
+                if (capabilities.zoom && capabilities.zoom.max > 1) {
+                    video.applyConstraints({ advanced: [{ zoom: 2 }] });
+                }
+            }
             this.setState({ isOpenFormCheck: value })
         }
         if (name == 'edit') { this.setState({ isOpenCreateStudent: value }) }
@@ -76,8 +85,9 @@ class check extends Component {
     }
     stopCamera = (name, value) => {
         if (name == 'check') {
-            window.location.reload();
+            //this.QrReader_Ref.current.stopScanning();
             this.setState({ isOpenFormCheck: value })
+            window.location.reload();
         }
         if (name == 'edit') { this.setState({ isOpenCreateStudent: value }) }
     }
@@ -173,11 +183,12 @@ class check extends Component {
                 >
                     <div className='flex items-center justify-center'>
                         <div>
-                            <QrReader constraints={{
-                                facingMode: 'environment'
-                            }}
+                            <QrReader ref={this.QrReader_Ref}
+                                constraints={{ facingMode: 'environment' }}
+                                cameraOptions={{ zoom: 2.0 }}
                                 onResult={(result, error) => this.handleQRcheck(result, error)}
-                                className='w-[250px] h-[300px]' />
+                                className='w-[250px] h-[300px]'
+                            />
                             <div>
                                 <div className='space-y-[5px] w-full'>
                                     <div className='text-center border p-[5px] rounded-[5px]'>

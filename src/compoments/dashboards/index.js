@@ -8,15 +8,16 @@ import {
 } from "react-icons/ai";
 import { withRouter } from 'react-router-dom';
 import HeaderDB from './layouts/header';
-import ManagerUser from './manager/user';
-import ManagerOrder from './manager/order';
-import MangerEvent from './manager/event';
-import ManagerBuyer from './manager/buyer';
-import ManagerTicket from './manager/ticket';
-import CheckTicket from './function/check';
-import FunctionTicket from './function/ticket';
+import ManagerUser from './managers/user';
+import ManagerOrder from './managers/order';
+import MangerEvent from './managers/event';
+import ManagerBuyer from './managers/buyer';
+import ManagerTicket from './managers/ticket';
+import CheckTicket from './functions/check';
+import FunctionTicket from './functions/ticket';
 import { toast } from 'react-toastify';
 import { Get_Local_Acount_DB, } from '../../auths/local_storage';
+
 class index extends Component {
     constructor(props) {
         super(props);

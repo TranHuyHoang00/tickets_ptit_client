@@ -140,8 +140,8 @@ class ticket extends Component {
                 render: (student) => <a>{student == null ? 'Chưa' : 'Rồi'}</a>,
             },
             {
-                title: 'Ngày cập nhập', dataIndex: 'updated_at',
-                sorter: (a, b) => a.updated_at.localeCompare(b.updated_at),
+                title: 'Sinh viên', dataIndex: 'student',
+                render: (student) => <a>{student == null ? 'None' : student.full_name}</a>,
             },
             {
                 title: 'Hđ', width: 100,
