@@ -14,7 +14,8 @@ class event extends Component {
             isOpenFormDetail: false,
             isOpenFormEdit: false,
             dataEvent: {},
-            dataEvents: []
+            dataEvents: [],
+            dataEvent1: {},
         }
     }
     async componentDidMount() {
@@ -36,7 +37,10 @@ class event extends Component {
         try {
             let data = await getEvent(id);
             if (data && data.data && data.data.success == 1) {
-                this.setState({ dataEvent: data.data.data })
+                this.setState({
+                    dataEvent: data.data.data,
+                    dataEvent1: data.data.data
+                })
             }
         } catch (e) {
             console.log('Lỗi', e);
@@ -80,11 +84,15 @@ class event extends Component {
         return { code: 0 };
     }
     ValidationEdit = (data) => {
+        let dataEvent = this.state.dataEvent1;
         if (this.isCheckEmpty(data.event_name) == 0) {
             return { mess: "Thiếu tên sự kiện", code: 1 };
         }
         if (this.isCheckEmpty(data.expiry_date) == 0) {
             return { mess: "Thiếu ngày kết thúc", code: 1 };
+        }
+        if ((dataEvent.total_ticket - dataEvent.avaliable_ticket) > data.total_ticket) {
+            return { mess: "Tổng vé phải lớn hơn hoặc bằng số vé đã bán", code: 1 };
         }
         return { code: 0 };
     }

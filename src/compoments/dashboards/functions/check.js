@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Switch, Route } from "react-router-dom";
-import { ScanOutlined, UserOutlined, CaretDownOutlined, SmileOutlined } from '@ant-design/icons';
-import { Space, Button, Modal, Alert, Divider, Input } from 'antd';
+import { Button, Modal, Alert, Input } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { AiOutlineScan } from "react-icons/ai";
 import { QrReader } from 'react-qr-reader';
@@ -27,16 +26,31 @@ class check extends Component {
     }
     async componentDidMount() {
     }
+    setupCamera = async () => {
+        try {
+            const constraints = { video: { facingMode: 'environment' } };
+            const mediaStream = await navigator.mediaDevices.getUserMedia(constraints);
+            this.mediaStream = mediaStream;
+            const videoTrack = this.mediaStream.getVideoTracks()[0];
+            const capabilities = videoTrack.getCapabilities();
+            console.log("media", mediaStream.getVideoTracks()[0]);
+            if (this.QrReaderRef.current) {
+                this.QrReaderRef.current.srcObject = mediaStream;
+                this.QrReaderRef.current.play();
+            }
+            if ('zoom' in capabilities) {
+                const currentZoom = videoTrack.getCapabilities().zoom ?? 1;
+                console.log('currentZoom', currentZoom)
+                videoTrack.applyConstraints({ advanced: [{ zoom: 2.5 }] })
+            }
+
+        } catch (err) {
+            console.error(err);
+        }
+    };
     openForm = (name, value) => {
         if (name == 'check') {
-            console.log('ref', this.QrReader_Ref);
-            const video = this.QrReader_Ref.current?.state?.mediaStream?.getVideoTracks()[0];
-            if (video && 'getCapabilities' in video) {
-                const capabilities = video.getCapabilities();
-                if (capabilities.zoom && capabilities.zoom.max > 1) {
-                    video.applyConstraints({ advanced: [{ zoom: 2 }] });
-                }
-            }
+            this.setupCamera();
             this.setState({ isOpenFormCheck: value })
         }
         if (name == 'edit') { this.setState({ isOpenCreateStudent: value }) }
@@ -85,7 +99,6 @@ class check extends Component {
     }
     stopCamera = (name, value) => {
         if (name == 'check') {
-            //this.QrReader_Ref.current.stopScanning();
             this.setState({ isOpenFormCheck: value })
             window.location.reload();
         }

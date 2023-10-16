@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Button, Modal, Alert, Image } from 'antd';
 import { getEvent } from '../../../services/eventService';
 import anhminhhoa from '../../../assets/images/anhminhhoa.jpg';
+import bg from '../../../assets/images/bg.png';
 class home extends React.Component {
     constructor(props) {
         super(props);
@@ -64,9 +65,9 @@ class home extends React.Component {
     render() {
         let status_Event = this.state.status_Event;
         return (
-            //style={{ backgroundImage: `url(${bg})` }}
-            <div className='h-screen w-screen bg-cover bg-no-repeat
-            flex items-center justify-center' >
+
+            <div className='h-screen w-screen bg-center sm:bg-cover bg-no-repeat 
+            flex items-center justify-center' style={{ backgroundImage: `url(${bg})` }}>
                 <div className='space-y-[5px]'>
                     <div>
                         <img src={require(`../../../assets/images/LOGO_CSV23.png`).default} className='h-[100px] sm:h-[200px] md:h-[250px] w-auto' />

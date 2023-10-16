@@ -8,7 +8,7 @@ import ReCAPTCHA from "react-google-recaptcha";
 import { connect } from 'react-redux';
 import * as actions from '../../../store/actions';
 import { getEvent, createBuyer, createOrder } from '../../../services/eventService';
-
+import bg from '../../../assets/images/bg.png';
 const recaptchaRef = React.createRef();
 const ButtonGroup = Button.Group;
 class form extends React.Component {
@@ -213,11 +213,11 @@ class form extends React.Component {
         let dataEvent = this.state.dataEvent;
         let infor = this.state.infor;
         return (
-            <div className=' md:w-screen md:h-screen h-auto w-auto
-            flex items-center justify-center font-semibold'>
-                <div className='p-[10px]'>
+            <div className=' md:w-screen md:h-screen h-auto w-auto p-[10px]  bg-center sm:bg-cover bg-no-repeat 
+            flex items-center justify-center font-semibold' style={{ backgroundImage: `url(${bg})` }}>
+                <div className=' bg-white '>
                     <div className='bg-gradient-to-r from-[#1e9dee] to-[#a951e9]
-                    text-center p-[10px] rounded-t-[10px]'>
+                    text-center p-[10px] '>
                         <label className='text-white font-[500] text-[20px]'>ĐĂNG KÝ MUA VÉ</label>
                     </div>
                     <div className='md:grid grid-cols-2 
@@ -333,7 +333,7 @@ class form extends React.Component {
                                     sitekey={process.env.REACT_APP_STIE_KEY_RECAPCHA}
                                     onChange={(value) => this.handleOnchangRC(value)}
                                     onExpired={() => this.onExpired()}
-                                />,
+                                />
                                 <Button type="primary" danger onClick={() => this.handleSubmit()}>ĐĂNG KÝ</Button>
                             </div>
                         </div>

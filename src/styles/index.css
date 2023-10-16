@@ -740,6 +740,11 @@ video {
   border-top-right-radius: 8px;
 }
 
+.rounded-t-\[5px\] {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
 .border {
   border-width: 1px;
 }
@@ -847,6 +852,14 @@ video {
 
 .bg-cover {
   background-size: cover;
+}
+
+.bg-contain {
+  background-size: contain;
+}
+
+.bg-center {
+  background-position: center;
 }
 
 .bg-no-repeat {
@@ -1021,6 +1034,10 @@ video {
 
   .sm\:h-\[200px\] {
     height: 200px;
+  }
+
+  .sm\:bg-cover {
+    background-size: cover;
   }
 }
 
