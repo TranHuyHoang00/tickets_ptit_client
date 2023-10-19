@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { Button, Input, } from 'antd';
 import { login } from '../../../services/userService';
 import { toast } from 'react-toastify';
-
+import { set_local_account } from '../../../auths/local_storage';
 class loginPage extends Component {
     constructor(props) {
         super(props);
@@ -12,7 +12,7 @@ class loginPage extends Component {
                 username: '',
                 password: '',
             },
-            //data: { refresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5OTM1MjU4MywiaWF0IjoxNjk2NzYwNTgzLCJqdGkiOiI3MjMyM2E1YTQwYTE0MDVmYTQyNTNhOTczNmExZTRiMiIsInVzZXJfaWQiOjJ9.MqdUMe6Zde6Hs4MBLsOsvVQbZ8f_--NkvSAUGXMOEpc", access: "xeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk2NzgyMTgzLCJpYXQiOjE2OTY3NjA1ODMsImp0aSI6ImZjMTFiMmZhYmYwYjRiMmFhYTc4MTM5YTJlYTkxMWU0IiwidXNlcl9pZCI6Mn0.CsOF3dvtd7v_MSkLu2jx1bYuWu9GI2u0liHqrbDncUI", user: { id: 2, username: "admin0", email: "", first_name: "Trần", last_name: "Huy Hoàng00", is_superuser: false } }
+            // data: { refresh: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoicmVmcmVzaCIsImV4cCI6MTY5OTM1MjU4MywiaWF0IjoxNjk2NzYwNTgzLCJqdGkiOiI3MjMyM2E1YTQwYTE0MDVmYTQyNTNhOTczNmExZTRiMiIsInVzZXJfaWQiOjJ9.MqdUMe6Zde6Hs4MBLsOsvVQbZ8f_--NkvSAUGXMOEpc", access: "ixeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjk2NzgyMTgzLCJpYXQiOjE2OTY3NjA1ODMsImp0aSI6ImZjMTFiMmZhYmYwYjRiMmFhYTc4MTM5YTJlYTkxMWU0IiwidXNlcl9pZCI6Mn0.CsOF3dvtd7v_MSkLu2jx1bYuWu9GI2u0liHqrbDncUI", user: { id: 2, username: "admin0", email: "", first_name: "Trần", last_name: "Huy Hoàng00", is_superuser: false } }
         }
     }
     async componentDidMount() {
@@ -49,11 +49,8 @@ class loginPage extends Component {
         if (result.code == 0) {
             try {
                 let data = await login(this.state.login);
-                console.log(data);
                 if (data && data.data && data.data.success == 1) {
-                    localStorage.setItem(`${process.env.REACT_APP_LOCALHOST_ACOUNT_DB}`, JSON.stringify(
-                        { data: data.data.data }
-                    ))
+                    set_local_account(process.env.REACT_APP_LOCALHOST_ACOUNT_DB, data.data.data);
                     this.props.history.push(`/dashboard`);
                 } else {
                     toast.error("Sai thông tin đăng nhập")

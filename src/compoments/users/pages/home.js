@@ -69,29 +69,33 @@ class home extends React.Component {
             <div className='h-screen w-screen bg-center sm:bg-cover bg-no-repeat 
             flex items-center justify-center' style={{ backgroundImage: `url(${bg})` }}>
                 <div className='space-y-[5px]'>
-                    <div>
+                    <div className='s'>
                         <img src={require(`../../../assets/images/LOGO_CSV23.png`).default} className='h-[100px] sm:h-[200px] md:h-[250px] w-auto' />
                     </div>
                     <div className='flex items-center justify-center'>
-                        <div className='space-y-[5px] border p-[10px] shadow-md rounded-[5px]'>
+                        <div className='space-y-[5px]  p-[10px] shadow-md rounded-[5px]'>
+                            {status_Event == 0 ?
+                                <div className='text-center text-[14px]'><span className='text-white'>{this.state.alert}</span></div>
+                                //<Alert message={this.state.alert} type="success" showIcon />
+                                :
+                                <div className='text-center text-[14px]'><span className='text-red-500'>{this.state.alert}</span></div>
+                                //<Alert message={this.state.alert} type="error" showIcon />
+                            }
                             {status_Event == 0 ?
                                 <Button onClick={() => this.openDialog(true)}
-                                    className='shadow-md bg-blue-400'
-                                    size="large" type="primary" >
+                                    className='shadow-md bg-gradient-to-t from-[#673de4] via-[#b577c2] to-[#673de4]
+                                    font-[500] text-white hover:scale-105'
+                                    size="large" type="default" shape="round" >
                                     ĐĂNG KÝ MUA VÉ
                                 </Button>
                                 :
                                 <Button
-                                    className='shadow-md bg-blue-400'
-                                    size="large" type="primary" disabled >
+                                    className='shadow-md bg-gradient-to-t from-[#673de4] via-[#b577c2] to-[#673de4]'
+                                    size="large" type="default" disabled >
                                     ĐĂNG KÝ MUA VÉ
                                 </Button>
                             }
-                            {status_Event == 0 ?
-                                <Alert message={this.state.alert} type="success" showIcon />
-                                :
-                                <Alert message={this.state.alert} type="error" showIcon />
-                            }
+
                         </div>
                     </div>
                 </div>

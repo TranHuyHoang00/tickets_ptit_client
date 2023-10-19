@@ -215,9 +215,9 @@ class form extends React.Component {
         return (
             <div className=' md:w-screen md:h-screen h-auto w-auto p-[10px]  bg-center sm:bg-cover bg-no-repeat 
             flex items-center justify-center font-semibold' style={{ backgroundImage: `url(${bg})` }}>
-                <div className=' bg-white '>
+                <div className=' bg-white rounded-[5px]'>
                     <div className='bg-gradient-to-r from-[#1e9dee] to-[#a951e9]
-                    text-center p-[10px] '>
+                    text-center p-[10px] rounded-t-[5px]'>
                         <label className='text-white font-[500] text-[20px]'>ĐĂNG KÝ MUA VÉ</label>
                     </div>
                     <div className='md:grid grid-cols-2 

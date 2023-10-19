@@ -16,7 +16,7 @@ import ManagerTicket from './managers/ticket';
 import CheckTicket from './functions/check';
 import FunctionTicket from './functions/ticket';
 import { toast } from 'react-toastify';
-import { Get_Local_Acount_DB, } from '../../auths/local_storage';
+import { get_local_account } from '../../auths/local_storage';
 
 class index extends Component {
     constructor(props) {
@@ -32,7 +32,7 @@ class index extends Component {
         }
     }
     async componentDidMount() {
-        let dataLogin = Get_Local_Acount_DB();
+        let dataLogin = get_local_account(process.env.REACT_APP_LOCALHOST_ACOUNT_DB);
         if (dataLogin && dataLogin.data && dataLogin.data.access) {
             this.setState({ isLogin: true })
         } else { this.setState({ isLogin: false }) }

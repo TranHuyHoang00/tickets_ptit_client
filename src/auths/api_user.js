@@ -1,14 +1,11 @@
 import axios from 'axios';
-import { Get_Local_Token_Acount_User } from './local_storage';
-const api_user = axios.create({
-    baseURL: `${process.env.REACT_APP_API}`,
-});
+import handle_token_local from './handle_token';
+
+const api_user = axios.create({ baseURL: `${process.env.REACT_APP_API}` });
 api_user.interceptors.request.use(
-    (config) => {
-        let token = Get_Local_Token_Acount_User();
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
-        }
+    async (config) => {
+        let token = await handle_token_local(process.env.REACT_APP_LOCALHOST_ACOUNT_USER);
+        if (token) { config.headers.Authorization = `Bearer ${token}`; }
         return config;
     },
     (error) => {
@@ -16,12 +13,10 @@ api_user.interceptors.request.use(
     }
 );
 api_user.interceptors.response.use(
-
-    (response) => {
-        return response;
-    },
+    (response) => { return response; },
     async (error) => {
         if (error.response.status === 401) {
+            await handle_token_local(process.env.REACT_APP_LOCALHOST_ACOUNT_USER);
         }
         return Promise.reject(error);
     }

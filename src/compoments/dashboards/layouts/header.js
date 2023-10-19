@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { UserOutlined, CaretDownOutlined, } from '@ant-design/icons';
 import { Avatar, Dropdown, Space } from 'antd';
 import { withRouter } from 'react-router-dom';
-import { Get_Local_Acount_DB, Remove_Local_Acount_DB } from '../../../auths/local_storage';
+import { get_local_account, remove_local_account } from '../../../auths/local_storage';
 
 class header extends Component {
     constructor(props) {
@@ -12,13 +12,13 @@ class header extends Component {
         }
     }
     async componentDidMount() {
-        let dataLogin = Get_Local_Acount_DB();
+        let dataLogin = get_local_account(process.env.REACT_APP_LOCALHOST_ACOUNT_DB);
         if (dataLogin && dataLogin.data && dataLogin.data.access) {
             this.setState({ dataAcount: dataLogin.data.user })
         } else { this.setState({ dataAcount: {} }) }
     }
     LogOut = () => {
-        Remove_Local_Acount_DB();
+        remove_local_account(process.env.REACT_APP_LOCALHOST_ACOUNT_DB);
         this.props.history.push(`/login`);
     }
     render() {

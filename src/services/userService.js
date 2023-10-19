@@ -1,6 +1,4 @@
 import api_admin from '../auths/api_admin';
-import { Get_Local_Acount_DB } from '../auths/local_storage';
-
 const getListUser = () => {
     return api_admin.get(`/auth/api/v1/list-user`,);
 }
@@ -19,9 +17,8 @@ const editUser = (id, data) => {
 const login = (data) => {
     return api_admin.post(`auth/api/v1/login`, data);
 }
-const refreshToken = () => {
-    let data = Get_Local_Acount_DB();
-    return api_admin.post(`auth/api/v1/token/refresh`, { refresh: data.data.refresh });
+const refreshToken = (refresh) => {
+    return api_admin.post(`auth/api/v1/token/refresh`, { refresh: refresh });
 }
 export {
     login, getListUser, createUser, getUser, deleteUser, editUser, refreshToken
