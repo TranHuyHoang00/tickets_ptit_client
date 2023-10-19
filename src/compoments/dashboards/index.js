@@ -61,7 +61,7 @@ class index extends Component {
     }
     onClickPage = (value) => {
         this.setState({ value: value });
-        if (value.key == 'sell' || value.key == 'check') {
+        if (value.key == 'ticket' || value.key == 'check') {
             this.props.history.push(`/dashboard/${value.key}`)
         } else {
             if (this.state.isCheckPassFireWall == true) {
@@ -82,14 +82,15 @@ class index extends Component {
                 [
                     this.getItem('Người mua', 'buyer', <AiFillGithub />),
                     this.getItem('Hóa đơn', 'order', <AiFillContainer />),
-                    this.getItem('Vé', 'ticket', <AiFillIdcard />),
+
                     this.getItem('Tài khoản', 'user', <AiOutlineUser />),
                     this.getItem('Sự kiện', 'event', <AiOutlineAudit />),
+                    this.getItem('Bán vé', 'sell', <AiFillGithub />),
                 ]
             ),
             this.getItem('Chức năng', 'function', <AiFillCalculator />,
                 [
-                    this.getItem('Bán vé', 'sell', <AiFillGithub />),
+                    this.getItem('Vé', 'ticket', <AiFillIdcard />),
                     this.getItem('Kiểm vé', 'check', <AiFillBook />),
                 ]
             ),
@@ -100,15 +101,16 @@ class index extends Component {
                     [
                         this.getItem('Người mua', 'buyer', <AiFillGithub />),
                         this.getItem('Hóa đơn', 'order', <AiFillContainer />),
-                        this.getItem('Vé', 'ticket', <AiFillIdcard />),
+
                         this.getItem('Tài khoản', 'user', <AiOutlineUser />),
                         this.getItem('Sự kiện', 'event', <AiOutlineAudit />),
+                        this.getItem('Bán vé', 'sell', <AiFillGithub />),
                     ],
                     'group'
                 ),
                 this.getItem('Chức năng', 'function', <AiFillCalculator />,
                     [
-                        this.getItem('Bán vé', 'sell', <AiFillGithub />),
+                        this.getItem('Vé', 'ticket', <AiFillIdcard />),
                         this.getItem('Kiểm vé', 'check', <AiFillBook />),
                     ],
                     'group',

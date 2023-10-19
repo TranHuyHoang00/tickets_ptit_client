@@ -201,7 +201,7 @@ class ticket extends React.Component {
                             <div className='space-y-[3px]'>
                                 <div><label className=''>Mã sinh viên<span className='text-red-600 text-[12px]'> * Bắt buộc</span> </label></div>
                                 <div className='border-b shadow-sm'>
-                                    <Input placeholder='N19DCCN065'
+                                    <Input placeholder='N23DCCN000'
                                         value={infor.student_id}
                                         onChange={(event) => this.handleOnchangeInput(event, 'student_id')}
                                         className='uppercase' bordered={false} />
@@ -210,7 +210,7 @@ class ticket extends React.Component {
                             <div className='space-y-[3px]'>
                                 <div><label className=''>Họ và tên <span className='text-red-600 text-[12px]'> * Bắt buộc</span> </label></div>
                                 <div className='border-b shadow-sm'>
-                                    <Input placeholder='Vũ Trung An'
+                                    <Input placeholder='Nguyễn Văn A'
                                         value={infor.full_name}
                                         onChange={(event) => this.handleOnchangeInput(event, 'full_name')}
                                         className='' bordered={false} />
@@ -219,7 +219,7 @@ class ticket extends React.Component {
                             <div className='space-y-[3px]'>
                                 <div><label className=''>Số điện thoại <span className='text-red-600 text-[12px]'> * Bắt buộc</span> </label></div>
                                 <div className='border-b shadow-sm'>
-                                    <Input placeholder='0789822001 - (10 SỐ)'
+                                    <Input placeholder='0885898652'
                                         value={infor.phone_number}
                                         onChange={(event) => this.handleOnchangeInput(event, 'phone_number')}
                                         className='' bordered={false} />

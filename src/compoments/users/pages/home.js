@@ -90,7 +90,8 @@ class home extends React.Component {
                                 </Button>
                                 :
                                 <Button
-                                    className='shadow-md bg-gradient-to-t from-[#673de4] via-[#b577c2] to-[#673de4]'
+                                    className='shadow-md bg-gradient-to-t from-[#673de4] via-[#b577c2] to-[#673de4]
+                                    font-[500] text-white hover:scale-105'
                                     size="large" type="default" disabled >
                                     ĐĂNG KÝ MUA VÉ
                                 </Button>
@@ -122,7 +123,7 @@ class home extends React.Component {
                         </div>
                     </div>
                 </Modal>
-            </div>
+            </div >
         )
     }
 }

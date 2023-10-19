@@ -16,6 +16,7 @@ class ticket extends Component {
             dataTickets: [],
             dataTicket: {},
             dataSearch: [],
+            total_ticket: 0,
         }
     }
     async componentDidMount() {
@@ -41,7 +42,9 @@ class ticket extends Component {
             if (data && data.data && data.data.success == 1) {
                 let dataRaw = data.data.data;
                 let dataFilter = [];
+                let total_ticket = 0;
                 for (const i of dataRaw) {
+                    total_ticket += 1;
                     if (i.student !== null) {
                         const obj = {};
                         obj.key = i.student.id;
@@ -49,7 +52,7 @@ class ticket extends Component {
                         dataFilter.push(obj);
                     }
                 }
-                this.setState({ dataTickets: data.data.data, dataSearch: dataFilter })
+                this.setState({ dataTickets: data.data.data, dataSearch: dataFilter, total_ticket: total_ticket })
             } else {
                 this.setState({ dataTickets: {} })
             }
@@ -106,23 +109,27 @@ class ticket extends Component {
     handleDelete = async (id) => {
     }
     filterTicket = async (event) => {
-        if (event == 0) { await this.getListTicket() }
+        await this.getListTicket();
+        let dataTickets = this.state.dataTickets;
+        let result = [];
+        if (event == 0) {
+            result = dataTickets;
+        }
         if (event == 1) {
-            await this.getListTicket();
-            let dataTickets = this.state.dataTickets;
-            let result = dataTickets.filter(obj => {
+            result = dataTickets.filter(obj => {
                 return obj.student !== null
             })
-            this.setState({ dataTickets: result })
         }
         if (event == 2) {
-            await this.getListTicket();
-            let dataTickets = this.state.dataTickets;
-            let result = dataTickets.filter(obj => {
+            result = dataTickets.filter(obj => {
                 return obj.student === null
             })
-            this.setState({ dataTickets: result })
         }
+        let total_ticket = 0;
+        for (const i of result) {
+            total_ticket += 1;
+        }
+        this.setState({ dataTickets: result, total_ticket: total_ticket })
     }
     render() {
         let dataTicket = this.state.dataTicket;
@@ -158,7 +165,7 @@ class ticket extends Component {
         ];
         return (
             <div className='m-[10px] p-[10px] border shadow-md bg-white'>
-                <div className='flex items-center justify-between space-x-[5px]'>
+                <div className='flex items-center justify-between space-x-[5px] space-y-'>
                     <Select defaultValue="0" style={{ width: 140, }}
                         onChange={(event) => this.filterTicket(event)}
                         options={[
@@ -167,6 +174,7 @@ class ticket extends Component {
                             { value: '2', label: 'Chưa qua cổng', },
                         ]}
                     />
+
                     <AutoComplete className='md:w-[300px] w-[160px]'
                         options={this.state.dataSearch}
                         onSelect={(value, option) => this.onSelect(value, option)}
@@ -178,10 +186,11 @@ class ticket extends Component {
                         allowClear
                     />
                 </div>
-                <Divider>VÉ</Divider>
+
+                <Divider>TỔNG CỘNG : {this.state.total_ticket} VÉ</Divider>
                 <Table columns={columns} dataSource={this.state.dataTickets}
                     size="small" bordered
-                    pagination={{ pageSize: 7, }}
+                    pagination={{ pageSize: 16, }}
                     scroll={{ y: 300, x: 300, }}
                 />
                 <Modal title="Tạo mới" open={this.state.isOpenFormCreate}
