@@ -77,7 +77,7 @@ class check extends Component {
     }
     handleQRcheck = async (result, error) => {
         if (!!result) {
-            this.setState({ resultQR: result.text })
+            this.setState({ resultQR: result.text, dataStudent: {} })
             let dataTicket = await this.getTicket(result.text);
             if (dataTicket == null) {
                 let err = new Audio(errSound);
@@ -257,7 +257,7 @@ class check extends Component {
                         </div>
                         <div>
                             <label>Mã sinh viên</label>
-                            <Input value={dataStudent.student_id}
+                            <Input value={dataStudent.student_id} className='uppercase'
                                 onChange={(event) => this.handleOnchangeInput(event, 'student_id')} />
                         </div>
                         <div>

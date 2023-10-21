@@ -26,12 +26,16 @@ class ticket extends Component {
         await this.getListTicket();
         let dataTickets = this.state.dataTickets;
         let dataFilter = [];
+        let total_ticket = 0;
         for (const i of dataTickets) {
+
             if (i && i.student && i.student.id == option.key) {
+                total_ticket += 1;
                 dataFilter.push(i);
             }
         }
-        this.setState({ dataTickets: dataFilter })
+        console.log('x', dataTickets);
+        this.setState({ dataTickets: dataFilter, total_ticket: total_ticket })
     }
     onClearAutoComplete = async () => {
         await this.getListTicket();
