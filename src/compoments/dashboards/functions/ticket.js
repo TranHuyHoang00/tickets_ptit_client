@@ -172,7 +172,7 @@ class ticket extends React.Component {
                 order.payment_status = "success";
                 let dataOrder = await this.createOrderStaff(order);
                 if (dataOrder == null) {
-                    toast.error("Tạo order thất bại");
+                    toast.error("Số vé bạn mua đã lớn hơn 5");
                 } else {
                     let dataTicket = await this.createTicket({ order: dataOrder.id });
                     if (dataTicket == null) {

@@ -193,7 +193,7 @@ class form extends React.Component {
                 order.event = this.state.dataEvent.id;
                 let dataOrder = await this.createOrder(order);
                 if (dataOrder == null) {
-                    toast.error("Tạo order thất bại");
+                    toast.error("Số vé bạn mua đã lớn hơn 5");
                 } else {
                     localStorage.setItem(`${process.env.REACT_APP_LOCALHOST_DATA_ORDER_USER}`, JSON.stringify(
                         { data: dataOrder }
