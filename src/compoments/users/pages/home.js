@@ -74,13 +74,13 @@ class home extends React.Component {
                     </div>
                     <div className='flex items-center justify-center'>
                         <div className='space-y-[5px]  p-[10px] shadow-md rounded-[5px]'>
-                            {status_Event == 0 ?
+                            {/* {status_Event == 0 ?
                                 <div className='text-center text-[14px]'><span className='text-white'>{this.state.alert}</span></div>
                                 //<Alert message={this.state.alert} type="success" showIcon />
                                 :
                                 <div className='text-center text-[14px]'><span className='text-red-500'>{this.state.alert}</span></div>
                                 //<Alert message={this.state.alert} type="error" showIcon />
-                            }
+                            } */}
                             {status_Event == 0 ?
                                 <Button onClick={() => this.openDialog(true)}
                                     className='shadow-md bg-gradient-to-t from-[#673de4] via-[#b577c2] to-[#673de4]

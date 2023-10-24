@@ -43,6 +43,7 @@ class ticket extends Component {
     getListTicket = async () => {
         try {
             let data = await getListTicket();
+            console.log(data);
             if (data && data.data && data.data.success == 1) {
                 let dataRaw = data.data.data;
                 let dataFilter = [];
