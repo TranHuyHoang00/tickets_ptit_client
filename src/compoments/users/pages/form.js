@@ -260,15 +260,15 @@ class form extends React.Component {
                                             <div className='text-[12px]'><label>Tổng vé</label></div>
                                             <div><label className=''>{dataEvent.total_ticket} vé</label></div>
                                         </div>
-                                    </div>
+                                    </div> */}
                                     <div className='flex items-center justify-center bg-gradient-to-r from-[#fda682] to-[#f7789d]
                                     border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
                                         <div className='text-[50px]'><BsTicketPerforatedFill /></div>
                                         <div className='text-[16px]'>
-                                            <div className='text-[12px]'><label>Đã bán</label></div>
-                                            <div><label className=''>{dataEvent.total_ticket - dataEvent.avaliable_ticket} vé</label></div>
+                                            <div className='text-[12px]'><label>Giá vé</label></div>
+                                            <div><label className=''>{`${dataEvent.ticket_price}`.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,')} vnđ</label></div>
                                         </div>
-                                    </div> */}
+                                    </div>
                                     <div className='flex items-center justify-center bg-gradient-to-r from-[#17f0a1] to-[#04ce89]
                                     border shadow-md rounded-[5px] space-x-[20px] text-white p-[5px]'>
                                         <div className='text-[50px]'><BsTicketPerforated /></div>
