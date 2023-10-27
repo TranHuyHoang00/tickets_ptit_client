@@ -13,6 +13,7 @@ import ManagerOrder from './managers/order';
 import MangerEvent from './managers/event';
 import ManagerBuyer from './managers/buyer';
 import ManagerTicket from './managers/ticket';
+import ManagerTicket_Confirm from './managers/ticket_comfirm';
 import CheckTicket from './functions/check';
 import FunctionTicket from './functions/ticket';
 import { toast } from 'react-toastify';
@@ -61,7 +62,7 @@ class index extends Component {
     }
     onClickPage = (value) => {
         this.setState({ value: value });
-        if (value.key == 'ticket' || value.key == 'check') {
+        if (value.key == 'sell' || value.key == 'check' || value.key == 'ticket_confirm') {
             this.props.history.push(`/dashboard/${value.key}`)
         } else {
             if (this.state.isCheckPassFireWall == true) {
@@ -82,15 +83,16 @@ class index extends Component {
                 [
                     this.getItem('Người mua', 'buyer', <AiFillGithub />),
                     this.getItem('Hóa đơn', 'order', <AiFillContainer />),
-
+                    this.getItem('Vé', 'ticket', <AiFillIdcard />),
                     this.getItem('Tài khoản', 'user', <AiOutlineUser />),
                     this.getItem('Sự kiện', 'event', <AiOutlineAudit />),
-                    this.getItem('Bán vé', 'sell', <AiFillGithub />),
+
                 ]
             ),
             this.getItem('Chức năng', 'function', <AiFillCalculator />,
                 [
-                    this.getItem('Vé', 'ticket', <AiFillIdcard />),
+                    this.getItem('Vé_qua cổng', 'ticket_confirm', <AiFillIdcard />),
+                    this.getItem('Bán vé', 'sell', <AiFillGithub />),
                     this.getItem('Kiểm vé', 'check', <AiFillBook />),
                 ]
             ),
@@ -101,16 +103,17 @@ class index extends Component {
                     [
                         this.getItem('Người mua', 'buyer', <AiFillGithub />),
                         this.getItem('Hóa đơn', 'order', <AiFillContainer />),
-
+                        this.getItem('Vé', 'ticket', <AiFillIdcard />),
                         this.getItem('Tài khoản', 'user', <AiOutlineUser />),
                         this.getItem('Sự kiện', 'event', <AiOutlineAudit />),
-                        this.getItem('Bán vé', 'sell', <AiFillGithub />),
+
                     ],
                     'group'
                 ),
                 this.getItem('Chức năng', 'function', <AiFillCalculator />,
                     [
-                        this.getItem('Vé', 'ticket', <AiFillIdcard />),
+                        this.getItem('Vé_qua cổng', 'ticket_confirm', <AiFillIdcard />),
+                        this.getItem('Bán vé', 'sell', <AiFillGithub />),
                         this.getItem('Kiểm vé', 'check', <AiFillBook />),
                     ],
                     'group',
@@ -156,7 +159,7 @@ class index extends Component {
                                     <Route exact path={`${url}event`}><MangerEvent /></Route>
                                     <Route exact path={`${url}buyer`}><ManagerBuyer /></Route>
                                     <Route exact path={`${url}ticket`}><ManagerTicket /></Route>
-
+                                    <Route exact path={`${url}ticket_confirm`}><ManagerTicket_Confirm /></Route>
                                     <Route exact path={`${url}sell`}><FunctionTicket /></Route>
                                     <Route exact path={`${url}check`}><CheckTicket /></Route>
                                 </Switch>

@@ -19,6 +19,7 @@ class ticket extends React.Component {
             ticket: 1,
             ReCAPTCHA: null,
             dataEvent: {},
+            isResult: true,
         }
     }
     async componentDidMount() {
@@ -161,8 +162,10 @@ class ticket extends React.Component {
     handleSubmit = async () => {
         let result = this.Validation();
         if (result.code == 0) {
+            this.setState({ isResult: false })
             let dataBuyer = await this.createBuyer(this.state.infor);
             if (dataBuyer == null) {
+                this.setState({ isResult: true })
                 toast.error("Tạo thông tin thất bại");
             } else {
                 let order = {};
@@ -172,14 +175,16 @@ class ticket extends React.Component {
                 order.payment_status = "success";
                 let dataOrder = await this.createOrderStaff(order);
                 if (dataOrder == null) {
+                    this.setState({ isResult: true })
                     toast.error("Số vé bạn mua đã lớn hơn 5");
                 } else {
                     let dataTicket = await this.createTicket({ order: dataOrder.id });
                     if (dataTicket == null) {
+                        this.setState({ isResult: true })
                         toast.error("Tạo vé thất bại");
                     } else {
                         toast.success("Đăng ký vé thành công");
-                        this.setState({ infor: {} })
+                        this.setState({ infor: {}, isResult: true })
                     }
                 }
             }
@@ -242,7 +247,12 @@ class ticket extends React.Component {
                                     onChange={(value) => this.handleOnchangRC(value)}
                                     onExpired={() => this.onExpired()}
                                 />,
-                                <Button type="primary" danger onClick={() => this.handleSubmit()}>ĐĂNG KÝ</Button>
+                                {this.state.isResult == true ?
+                                    <Button type="primary" danger onClick={() => this.handleSubmit()}>ĐĂNG KÝ</Button>
+                                    :
+                                    <Button loading disabled type="primary" danger >ĐĂNG KÝ</Button>
+                                }
+
                             </div>
                         </div>
                     </div>
