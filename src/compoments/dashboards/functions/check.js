@@ -65,7 +65,9 @@ class check extends Component {
                     dataST.full_name = dataStudent.full_name;
                     dataST.student_id = dataStudent.student_id;
                     dataST.cccd = dataStudent.cccd;
-                    this.setState({ dataStudent: dataST })
+                    this.setState({ dataStudent: dataST, statusCheck: 3 })
+                } else {
+                    this.setState({ statusCheck: 2 })
                 }
                 return data.data.data
             } else {
@@ -86,8 +88,8 @@ class check extends Component {
             } else {
                 let suc = new Audio(sucSound);
                 suc.play();
+                console.log('dataTicket', dataTicket);
                 this.setState({
-                    statusCheck: 2,
                     dataTicket: dataTicket,
                     editTicket: { id: dataTicket.id }
                 })
@@ -207,13 +209,16 @@ class check extends Component {
                                     <div className='text-center border p-[5px] rounded-[5px]'>
                                         <label>Kết quả: {resultQR == false ? 'None' : resultQR}</label>
                                     </div>
+                                    {statusCheck == 3 &&
+                                        <Alert message="Đã xác minh" type="warning" showIcon />
+                                    }
                                     {statusCheck == 2 &&
                                         <Alert message="Xác minh thành công" type="success" showIcon />
                                     }
-                                    {(statusCheck == 1) &&
+                                    {statusCheck == 1 &&
                                         <Alert message="Xác minh thất bại" type="error" showIcon />
                                     }
-                                    {statusCheck == 2 &&
+                                    {(statusCheck == 2 || statusCheck == 3) &&
                                         <div className='space-y-[5px]'>
                                             <div className='text-center border shadow-sm rounded-[5px] py-[5px] px-[10px]'>
                                                 <div className=' text-[16px]'>
