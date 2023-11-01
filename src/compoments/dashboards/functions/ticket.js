@@ -39,20 +39,34 @@ class ticket extends React.Component {
     }
     onClickDecline = () => {
         let ticket = this.state.ticket;
-        if (ticket <= 1) {
-            return;
-        } else {
+        if (ticket > 5 && ticket <= 10) {
+            this.setState({
+                ...this.state,
+                ticket: ticket - 5,
+            })
+        }
+        if (ticket > 1 && ticket <= 5) {
             this.setState({
                 ...this.state,
                 ticket: ticket - 1,
             })
         }
+        if (ticket <= 1) {
+            return;
+        }
     }
     onClickIncrease = () => {
         let ticket = this.state.ticket;
-        if (ticket >= 5) {
+        if (ticket >= 10) {
             return;
-        } else {
+        }
+        if (ticket >= 5) {
+            this.setState({
+                ...this.state,
+                ticket: ticket + 5,
+            })
+        }
+        if (ticket < 5) {
             this.setState({
                 ...this.state,
                 ticket: ticket + 1,
