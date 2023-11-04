@@ -111,12 +111,12 @@ class ticket extends React.Component {
         if (this.isCheckSpace(infor.student_id) == true) {
             return { mess: "Mã sinh viên chứa khoảng trắng", code: 1 };
         }
-        if (!infor.full_name) {
-            return { mess: "Thiếu tên", code: 1 };
-        }
-        if (this.isCheckEmpty(infor.full_name) <= 3) {
-            return { mess: "Tên phải lớn hơn 3 kí tự", code: 1 };
-        }
+        // if (!infor.full_name) {
+        //     return { mess: "Thiếu tên", code: 1 };
+        // }
+        // if (this.isCheckEmpty(infor.full_name) <= 3) {
+        //     return { mess: "Tên phải lớn hơn 3 kí tự", code: 1 };
+        // }
         if (!infor.phone_number) {
             return { mess: "Thiếu số điện thoại", code: 1 };
         }
@@ -226,7 +226,7 @@ class ticket extends React.Component {
                                         className='uppercase' bordered={false} />
                                 </div>
                             </div>
-                            <div className='space-y-[3px]'>
+                            {/* <div className='space-y-[3px]'>
                                 <div><label className=''>Họ và tên <span className='text-red-600 text-[12px]'> * Bắt buộc</span> </label></div>
                                 <div className='border-b shadow-sm'>
                                     <Input placeholder='Nguyễn Văn A'
@@ -234,7 +234,7 @@ class ticket extends React.Component {
                                         onChange={(event) => this.handleOnchangeInput(event, 'full_name')}
                                         className='' bordered={false} />
                                 </div>
-                            </div>
+                            </div> */}
                             <div className='space-y-[3px]'>
                                 <div><label className=''>Số điện thoại <span className='text-red-600 text-[12px]'> * Bắt buộc</span> </label></div>
                                 <div className='border-b shadow-sm'>
