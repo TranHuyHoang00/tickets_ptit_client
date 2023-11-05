@@ -85,7 +85,7 @@ class home extends React.Component {
                                 <Button onClick={() => this.openDialog(true)}
                                     className='shadow-md bg-gradient-to-t from-[#673de4] via-[#b577c2] to-[#673de4]
                                     font-[500] text-white hover:scale-105'
-                                    size="large" type="default" shape="round" >
+                                    size="large" type="default" shape="round" disabled>
                                     ĐĂNG KÝ MUA VÉ
                                 </Button>
                                 :
